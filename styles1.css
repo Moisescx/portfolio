@@ -235,7 +235,6 @@ main {
 footer {
     text-align: center;
     background: #141E30;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: white;
     padding: 15px;
@@ -244,7 +243,7 @@ footer {
     border-top: 1px solid #9f9e9e;
     position: absolute;
     width: 100%;
-}
+}   
 
 
 @media (max-width: 768px) {
