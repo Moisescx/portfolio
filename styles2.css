@@ -1,0 +1,292 @@
+/* Reset de márgenes y padding para todos los elementos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Estilos generales del body */
+body {
+    background-image: url("img/fondo_2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: "Darumadrop One", serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.6;
+}
+
+
+/* Estilo para el encabezado */
+.header_text {
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    text-align: center;
+    font-style: normal;
+}
+
+.typing {
+    width: 458px;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #cbcecf;
+    animation: typing 4s steps(12, end), cursor .4s steps(12, end) infinite;
+
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+}
+
+@keyframes cursor {
+    30% {
+        border-color: transparent
+    }
+}
+
+header img {
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Espacio entre los elementos */
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header-img right {
+    width: 50px;
+    /* Ajusta el tamaño de las imágenes */
+    height: auto;
+}
+
+.header-img left {
+    width: 50px;
+    /* Ajusta el tamaño de las imágenes */
+    height: auto;
+}
+
+@keyframes brillo {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.5);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
+
+.header-img {
+    animation: brillo 2s infinite alternate ease-in-out;
+}
+
+
+/* Títulos principales */
+h1,
+h2 {
+    font-family: "Darumadrop One", serif;
+    font-weight: 400;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #D3CCE3;
+}
+
+p {
+    color: #E9E4F0;
+    font-size: medium;
+
+}
+
+
+/* Estilo de la navegación */
+#navigator {
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    /* Ajustar el ancho del menú */
+    max-width: 200px;
+    overflow-y: auto;
+
+}
+
+#navigator h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+
+}
+
+#navigator ul {
+    list-style-type: none;
+}
+
+#navigator ul li {
+    margin-bottom: 8px;
+}
+
+#navigator a {
+    text-decoration: none;
+    color: #E9E4F0;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+#navigator a:hover {
+    color: #6624e0;
+    background-color: #2f2128;
+    text-decoration: underline;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+/* Estilos para el contenedor principal */
+#container {
+    width: 100%;
+    /* Antes ocupaba todo el ancho, ahora será más estrecho */
+    max-width: 900px;
+    /* Limita el ancho máximo */
+    margin: 20px auto;
+    /* Centrar el contenido */
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Contenido principal */
+main {
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    flex: 2;
+    /* Permite que el main tenga más espacio que la sidebar */
+    padding: 15px;
+}
+
+#introduccion {
+    margin-bottom: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f48fb1;
+}
+
+/* Estilo general para la galería */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Crea columnas automáticas con un mínimo de 200px de ancho */
+    gap: 15px;
+    padding: 10px;
+}
+
+/* Estilo para cada imagen */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-title {
+    position: absolute;
+    bottom: 10px; /* Ajusta la posición vertical */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+    color: white;
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-align: center;
+    width: 90%; /* Para que no sea más ancho que la imagen */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.gallery-item:hover .image-title {
+    opacity: 1; /* Hace que el título aparezca al pasar el mouse */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+    transform: scale(1.11); /* Da un efecto de zoom cuando se pasa el cursor */
+}
+
+/* Estilos para el chatbox */
+#chatbox {
+    flex-grow: 1;
+    /* Hace que el chat ocupe todo el espacio disponible */
+    background-color: #8f6b7d;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    min-height: 150px;
+    /* Altura mínima para evitar que sea muy pequeño */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Footer (si lo necesitas) */
+footer {
+    text-align: center;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #243B55, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #243B55, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: white;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    border-top: 1px solid #9f9e9e;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    #container {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        margin-top: 20px;
+    }
+}
