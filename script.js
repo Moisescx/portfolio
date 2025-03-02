@@ -12,7 +12,7 @@ async function getAnalyticsData() {
     });
 
     const data = await response.json();
-    document.getElementById("visitas").innerText = `Visitas: ${data.rows[0].metricValues[0].value}`;
+    document.getElementById("views").innerText = `Visitas: ${data.rows[0].metricValues[0].value}`;
 }
 
 // Llamar la función al cargar la página
