@@ -66,15 +66,13 @@ header img {
     margin: auto;
 }
 
-.header-img right {
-    width: 50px;
-    /* Ajusta el tamaño de las imágenes */
+.header-img.right {
+    width: 50%; /* Ajusta el tamaño de las imágenes */
     height: auto;
 }
 
-.header-img left {
-    width: 50px;
-    /* Ajusta el tamaño de las imágenes */
+.header-img.left {
+    width: 50%;  /* Ajusta el tamaño de las imágenes */
     height: auto;
 }
 
@@ -202,7 +200,7 @@ main {
 /* Estilo general para la galería */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Crea columnas automáticas con un mínimo de 200px de ancho */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 15px;
     padding: 10px;
 }
@@ -276,16 +274,4 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-}
-
-
-@media (max-width: 768px) {
-    #container {
-        flex-direction: column;
-    }
-
-    #sidebar {
-        width: 100%;
-        margin-top: 20px;
-    }
 }

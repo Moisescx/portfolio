@@ -8,15 +8,26 @@
 
 /* Estilos generales del body */
 body {
-    background-image: url("img/fondo_2.jpg");
+    background-image: url("https://i.pinimg.com/originals/86/37/cf/8637cff8d9c731147840df715bc489fe.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     font-family: "Darumadrop One", serif;
     font-weight: 400;
     font-style: normal;
+    min-height: 100vh;
     line-height: 1.6;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* Estilo para el encabezado */
@@ -26,7 +37,7 @@ body {
     font-size: 50px;
     text-align: center;
     font-style: normal;
-  }
+}
 
 .typing {
     width: 458px;
@@ -80,9 +91,11 @@ header img {
     0% {
         filter: brightness(1);
     }
+
     50% {
         filter: brightness(1.5);
     }
+
     100% {
         filter: brightness(1);
     }
@@ -113,12 +126,7 @@ p {
 
 /* Estilo de la navegación */
 #navigator {
-    background: #141E30;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #243B55, #141E30);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #243B55, #141E30);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: rgba(20, 30, 48, 0.6); /* Fondo oscuro con opacidad */
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -169,26 +177,21 @@ p {
     width: 100%;
     /* Antes ocupaba todo el ancho, ahora será más estrecho */
     max-width: 900px;
+    min-width: 300px;
     /* Limita el ancho máximo */
     margin: 20px auto;
     /* Centrar el contenido */
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+    gap: 10px;
 }
 
 /* Contenido principal */
 main {
-    background: #141E30;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #243B55, #141E30);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #243B55, #141E30);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: rgba(20, 30, 48, 0.6); /* Fondo oscuro con opacidad */
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    flex: 2;
-    /* Permite que el main tenga más espacio que la sidebar */
+    flex: 2; /* Permite que el main tenga más espacio que la sidebar */
     padding: 15px;
     color: #D3CCE3;
 }
@@ -209,12 +212,8 @@ main {
 
 /* Barra lateral */
 #sidebar {
-    background: #141E30;
+    background: rgba(20, 30, 48, 0.6); /* Fondo oscuro con opacidad */
     /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #243B55, #141E30);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #243B55, #141E30);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -222,16 +221,16 @@ main {
     /* La sidebar será más pequeña */
     width: 100%;
     max-width: 250px;
+    min-width: 200px;
     padding: 10px;
-
-
 }
 
 #sidebar section {
     margin-bottom: 25px;
     padding-bottom: 10px;
     border-bottom: 1px solid #f48fb1;
-    color: #D3CCE3;  /* Agrega una línea para mejorar la separación */
+    color: #D3CCE3;
+    /* Agrega una línea para mejorar la separación */
 }
 
 #sidebar h2 {
@@ -255,14 +254,10 @@ main {
     justify-content: flex-end;
 }
 
-/* Footer (si lo necesitas) */
+/* Footer */
 footer {
     text-align: center;
-    background: #141E30;
-    /* fallback for old browsers */
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #243B55, #141E30);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: rgba(80, 85, 98, 0.307); /* Fondo oscuro con opacidad */
     color: white;
     padding: 15px;
     margin-top: 20px;
@@ -273,63 +268,3 @@ footer {
     width: 100%;
 }
 
-@media (max-width: 768px) {
-
-    /* Hacer que el contenedor principal ocupe todo el ancho */
-    #container {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 100%;
-        padding: 10px;
-    }
-
-    /* Ajuste del menú de navegación */
-    #navigator {
-        width: 90%;
-        max-width: 100%;
-        min-height: auto;
-        padding: 10px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #navigator ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 0;
-        gap: 10px;
-    }
-
-    #navigator ul li {
-        display: inline-block;
-        margin: 5px;
-    }
-
-    /* Ajuste de la barra lateral */
-    #sidebar {
-        width: 90%;
-        max-width: 100%;
-        margin-top: 15px;
-        padding: 15px;
-        text-align: center;
-    }
-
-    /* Ajuste del contenido principal */
-    main {
-        width: 90%;
-        max-width: 100%;
-        padding: 15px;
-    }
-
-    /* Corrección del footer */
-    footer {
-        position: relative;
-        bottom: unset;
-        width: 100%;
-        padding: 10px;
-    }
-}
