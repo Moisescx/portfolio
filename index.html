@@ -7,13 +7,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=DotGothic16&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css" />
+
+
 
     <title>PortFolio</title>
 </head>
@@ -22,11 +20,12 @@
     <!-- Encabezado -->
     <header>
         <div class="header-container">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJzTwuF1QviAk_pHqFspLPJO7gic1kGERyDnsX-hDHfux7n6J6oK7FKAkRGcb61iVrbMUmKGj4TMJiJTynnECW_4LbIY41_fuKfkfKnIysvvkFMXZSLoBV371WnjafkA44yvuQ595U8P0/s1600/ESTRELLAS+%2528486%2529.png"
+            <img src="img/header-img.png"
                 class="header-left" alt="Imagen izquierda">
             <h1 class="header_text typing">W E L C O M E</h1>
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJzTwuF1QviAk_pHqFspLPJO7gic1kGERyDnsX-hDHfux7n6J6oK7FKAkRGcb61iVrbMUmKGj4TMJiJTynnECW_4LbIY41_fuKfkfKnIysvvkFMXZSLoBV371WnjafkA44yvuQ595U8P0/s1600/ESTRELLAS+%2528486%2529.png"
+            <img src="img/header-img.png"
                 class="header-right" alt="Imagen derecha">
+        </div>
     </header>
 
     <!-- Contenedor principal -->
@@ -44,9 +43,7 @@
                 <li><a href="#">Contacto</a></li>
             </ul>
             <h2>¿?</h2>
-            <div id="chatbox">
-
-            </div>
+            <div id="chatbox"></div>
         </nav>
 
         <!-- Contenido principal -->
@@ -62,7 +59,7 @@
             <section id="posts">
                 <h2>Primera publicacion - 01/02/2025</h2>
                 <p>¡Aqui ira una imagen por ejemplo! :D</p>
-                <img id="img"
+                <img id="posts-image"
                     src="https://steamuserimages-a.akamaihd.net/ugc/1818888114466750207/06EDABE5261D5FABD86D50EF21D1274A5A27DBE8/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
                     alt="Imagen" />
             </section>
@@ -73,20 +70,15 @@
             <section id="updates">
                 <h3>📌 Update Log</h3>
                 <p>Última actualización: <span id="lastUpdate">Cargando...</span></p>
-                <p>🔄 Actualizaciones: <span id="updates">0</span></p>
+                <p>🔄 Actualizaciones: <span id="updatesCount">0</span></p>
                 <p>👥 Seguidores: <span id="followers">0</span></p>
                 <p>👀 Visitas: <span id="views">0</span></p>
             </section>
         </aside>
     </div>
     <footer>
-        &copy; 2024 TuNombre. Todos los derechos reservados.
-        <br>
+            <p>&copy; 2024 TuNombre. Todos los derechos reservados.       </p>
     </footer>
 
-
     <script src="script.js"></script>
-
 </body>
-
-</html>
