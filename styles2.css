@@ -261,17 +261,12 @@ main {
 /* Footer (si lo necesitas) */
 footer {
     text-align: center;
-    background: #141E30;
-    /* fallback for old browsers */
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #243B55, #141E30);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     color: white;
-    padding: 15px;
     margin-top: 20px;
-    font-size: 0.9rem;
     border-top: 1px solid #9f9e9e;
-    position: absolute;
-    bottom: 0;
     width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
