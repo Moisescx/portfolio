@@ -11,12 +11,6 @@
     --fondo-transparente: rgba(20, 30, 48, 0.6);
 }
 
-button:hover{
-    cursor: url('img/cursor-pre.cur'), auto;
-}
-a:hover {
-    cursor: url('img/cursor-pre.cur'), auto;
-}
 body::before {
     content: "";
     position: absolute;
@@ -30,7 +24,7 @@ body::before {
 
 /* Estilos generales del body */
 body {
-    background-image: url("img/fondo_def.jpg");
+    background-image: url("img/fondo_index.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -43,7 +37,6 @@ body {
     z-index: 1;
     font-display: swap;
     position: relative;
-    cursor: url('img/cursor-pre.cur'), auto;
 }
 
 @keyframes fadeIn {
@@ -115,8 +108,7 @@ header img {
         filter: brightness(1);
     }
 }
-
-.header-img {
+.header-right, .header-left {
     animation: brillo 2s infinite alternate ease-in-out;
 }
 
@@ -236,14 +228,10 @@ main {
     color: var(--color-primario);
 }
 
-#sidebar h2 {
-    font-size: 1.1rem;
-    color: var(--color-primario);
-    margin-bottom: 10px;
-}
+
 
 /* Estilos para el chatbox */
-#chatbox {
+#contact {
     flex-grow: 1; /* Hace que el chat ocupe todo el espacio disponible */
     background-color: #8f6b7d;
     padding: 15px;
@@ -258,15 +246,14 @@ main {
 
 /* Footer */
 footer {
-    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     color: white;
-    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
     border-top: 1px solid #9f9e9e;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
 }
 
 @media (max-width: 768px) {

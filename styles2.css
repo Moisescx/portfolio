@@ -5,18 +5,46 @@
     box-sizing: border-box;
 }
 
+:root {
+    --color-primario: #D3CCE3;
+    --color-secundario: #E9E4F0;
+    --fondo-transparente: rgba(20, 30, 48, 0.6);
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Overlay oscuro */
+    z-index: -1;
+}
 
 /* Estilos generales del body */
 body {
-    background-image: url("img/fondo_2.jpg");
+    background-image: url("img/fondo_artesample.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-size: cover ;
     font-family: "Darumadrop One", serif;
     font-weight: 400;
     font-style: normal;
     line-height: 1.6;
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease-in-out;
+    z-index: 1;
+    font-display: swap;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 
@@ -66,13 +94,8 @@ header img {
     margin: auto;
 }
 
-.header-img.right {
-    width: 50%; /* Ajusta el tamaño de las imágenes */
-    height: auto;
-}
-
-.header-img.left {
-    width: 50%;  /* Ajusta el tamaño de las imágenes */
+.header-left, .header-right {
+    width: 100%;
     height: auto;
 }
 
@@ -101,11 +124,11 @@ h2 {
     font-style: normal;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: #D3CCE3;
+    color: var(--color-primario);
 }
 
 p {
-    color: #E9E4F0;
+    color: var(--color-secundario);
     font-size: medium;
 
 }
@@ -113,12 +136,7 @@ p {
 
 /* Estilo de la navegación */
 #navigator {
-    background: #141E30;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #243B55, #141E30);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #243B55, #141E30);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -126,8 +144,7 @@ p {
     min-height: 200px;
     display: flex;
     overflow: hidden;
-    flex-direction: column;
-    /* Ajustar el ancho del menú */
+    flex-direction: column;  /* Ajustar el ancho del menú */
     max-width: 200px;
     overflow-y: auto;
 
@@ -136,6 +153,7 @@ p {
 #navigator h2 {
     margin-bottom: 10px;
     font-size: 1.2rem;
+    color: var(--color-primario);
 
 }
 
@@ -149,7 +167,7 @@ p {
 
 #navigator a {
     text-decoration: none;
-    color: #E9E4F0;
+    color: var(--color-secundario);
     font-weight: bold;
     font-size: 1rem;
     transition: color 0.3s ease;
@@ -174,20 +192,16 @@ p {
     display: flex;
     justify-content: space-between;
     gap: 15px;
+    flex-grow: 1; /* Esto permite que el contenido ocupe el espacio disponible */
+
 }
 
 /* Contenido principal */
 main {
-    background: #141E30;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #243B55, #141E30);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #243B55, #141E30);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    flex: 2;
-    /* Permite que el main tenga más espacio que la sidebar */
+    flex: 2;  /* Permite que el main tenga más espacio que la sidebar */
     padding: 15px;
 }
 
@@ -195,6 +209,12 @@ main {
     margin-bottom: 15px;
     padding-bottom: 20px;
     border-bottom: 1px solid #f48fb1;
+}
+
+#galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .contenedor {
@@ -243,7 +263,7 @@ main {
 }
 
 /* Estilos para el chatbox */
-#chatbox {
+#contact {
     flex-grow: 1;
     /* Hace que el chat ocupe todo el espacio disponible */
     background-color: #8f6b7d;
@@ -259,13 +279,30 @@ main {
 
 /* Footer (si lo necesitas) */
 footer {
-    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     color: white;
-    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
     border-top: 1px solid #9f9e9e;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+
+}
+
+@media (max-width: 768px) {
+    #container {
+        flex-direction: column;
+    }
+    #navigator {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .header_text {
+        font-size: 30px; /* Ajusta el tamaño para móviles */
+    }
 }
