@@ -115,7 +115,6 @@ header img {
 /* Títulos principales */
 h1,
 h2 {
-    font-family: "Darumadrop One", serif;
     font-weight: 400;
     font-style: normal;
     text-transform: uppercase;
@@ -125,7 +124,8 @@ h2 {
 
 p {
     color: var(--color-secundario);
-    font-size: medium;
+    font-size: 1em;
+    
 }
 
 /* Estilo de la navegación */
@@ -145,8 +145,6 @@ p {
 
 #navigator h2 {
     margin-bottom: 10px;
-    font-size: 1.2rem;
-    color: var(--color-primario);
 }
 
 #navigator ul {
@@ -154,7 +152,7 @@ p {
 }
 
 #navigator ul li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 #navigator a {
@@ -167,32 +165,34 @@ p {
 }
 
 #navigator a:hover {
-    color: #6624e0;
-    background-color: #2f2128;
-    text-decoration: underline;
+    color: #8e57f6b1;
+    background-color: #fffdfd00;
     border-radius: 5px;
     padding: 5px 10px;
 }
 
 /* Estilos para el contenedor principal */
 #container {
-    width: 100%; /* Antes ocupaba todo el ancho, ahora será más estrecho */
-    max-width: 900px;
-    min-width: 300px; /* Limita el ancho máximo */
-    margin: 20px auto;  /* Centrar el contenido */
+    width: 100%;
+    max-width: 900px; /* Más ancho en pantallas grandes */
+    min-width: 10%; /* Se ajusta en móviles */
+    margin: 20px auto; /* Centrar */
     display: flex;
+    flex-wrap: wrap; /* Permite mejor adaptación */
     justify-content: space-between;
-    gap: 10px;
+    align-items: flex-start;
+    gap: clamp(5px, 2vw, 20px); /* Espaciado dinámico */
 }
 
 /* Contenido principal */
 main {
     background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     border-radius: 12px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15);
     flex: 2; /* Permite que el main tenga más espacio que la sidebar */
-    padding: 15px;
+    padding: clamp(10px, 1vw, 25px); /* Ajuste dinámico */
     color: var(--color-primario);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Mejora la legibilidad */
 }
 
 #introduccion {
@@ -203,9 +203,14 @@ main {
 
 /* Estilo para los posts */
 #posts-image {
-    width: 80px;
-    height: auto;
-    margin-top: 15px;
+    width: 100px; /* Ancho fijo */
+    max-width: 100%; /* Evita que la imagen sobresalga */
+    height: auto; /* Mantiene la relación original */
+    object-fit: cover; /* Recorta la imagen para ajustarla bien sin distorsión */
+    /* border-radius: 8px; Bordes redondeados para un mejor diseño */  
+    display: block; /* Para asegurar centrado */
+    margin: 15px auto; /* Centra la imagen */
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1); /* Pequeña sombra para resaltar */
 }
 
 /* Barra lateral */
@@ -214,47 +219,69 @@ main {
     border-radius: 12px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    flex: 1; /* La sidebar será más pequeña */
+    flex: 1; /* Hace que la sidebar sea más pequeña */
     width: 100%;
     max-width: 250px;
     min-width: 200px;
     padding: 10px;
 }
 
-#sidebar section {
-    margin-bottom: 25px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #f48fb1;
-    color: var(--color-primario);
+/* Estilos para el contacto */
+
+.contact-list {
+    display: grid; /* Usa CSS Grid para organizar en columnas */
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas del mismo tamaño */
+    gap: 20px; /* Espaciado entre elementos */
 }
 
-
-
-/* Estilos para el chatbox */
-#contact {
-    flex-grow: 1; /* Hace que el chat ocupe todo el espacio disponible */
-    background-color: #8f6b7d;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    min-height: 150px; /* Altura mínima para evitar que sea muy pequeño */
+.contact {
+    padding: 8px;
+    border-radius: 6px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    max-height: 300px;  
+    align-items: center;
+    gap: 8px; /* Espaciado entre icono y texto */
+    white-space: nowrap; /* Evita que el texto se corte en dos líneas */ 
 }
+
+.boton {
+    display: flex;
+    margin-bottom: 10px; /* Separa los botones 10px en la parte inferior */
+    align-items: center;
+    width: 100%; /* Permite que se ajuste dentro de la grid */
+    padding: 10px 15px;
+    background: #ffffff;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #2f2128;
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+}
+
+.boton:hover {
+    transform: scale(1.05);
+}
+
+.boton img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
 
 /* Footer */
 footer {
-    position: absolute;
+    position: fixed;
+    left: 0;
     bottom: 0;
     width: 100%;
-    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
+    background-color: var(--fondo-transparente);
     color: white;
     text-align: center;
-    padding: 10px;
-    border-top: 1px solid #9f9e9e;
-}
+  }
 
 @media (max-width: 768px) {
     #container {
@@ -271,4 +298,8 @@ footer {
     .header_text {
         font-size: 30px; /* Ajusta el tamaño para móviles */
     }
+    .contact-list {
+        grid-template-columns: 1fr; /* Solo una columna en pantallas pequeñas */
+    }
+
 }

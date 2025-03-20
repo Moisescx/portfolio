@@ -262,7 +262,7 @@ main {
     transform: rotateY(180deg);
 }
 
-/* Estilos para el chatbox */
+/* Estilos para el contacto */
 #contact {
     flex-grow: 1;
     /* Hace que el chat ocupe todo el espacio disponible */
@@ -270,8 +270,7 @@ main {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    min-height: 150px;
-    /* Altura mínima para evitar que sea muy pequeño */
+    min-height: 150px; /* Altura mínima para evitar que sea muy pequeño */
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

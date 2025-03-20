@@ -219,38 +219,58 @@ main {
 /* Barra lateral */
 #sidebar {
     background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     flex: 1; /* La sidebar será más pequeña */
+    width: 100%;
     max-width: 250px;
     min-width: 200px;
-    width: 100%;
     padding: 10px;
-    color:#D3CCE3 ;
 }
 
 #sidebar section {
     margin-bottom: 25px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #f48fb1;  /* Agrega una línea para mejorar la separación */
+    border-bottom: 1px solid #f48fb1;
     color: var(--color-primario);
-
 }
 
-
-/* Estilos para el chatbox */
+/* Estilos para el contacto */
 #contact {
-    flex-grow: 1; /* Hace que el chat ocupe todo el espacio disponible */
-    background-color: #8f6b7d;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    min-height: 150px; /* Altura mínima para evitar que sea muy pequeño */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    gap: 15px;  
 }
+
+.boton {
+    display: flex;
+    align-items: center;
+    width: 175px;
+    padding: 10px 20px;
+    background: #ffffff;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #2f2128;
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+}
+
+.boton:hover {
+    transform: scale(1.05);
+}
+
+.boton img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+
 
 /* Footer (si lo necesitas) */
 footer {
