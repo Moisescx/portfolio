@@ -278,15 +278,13 @@ main {
 
 /* Footer (si lo necesitas) */
 footer {
-    position: absolute;
+    position: fixed;
+    left: 0;
     bottom: 0;
     width: 100%;
-    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
+    background-color: var(--fondo-transparente);
     color: white;
     text-align: center;
-    padding: 10px;
-    border-top: 1px solid #9f9e9e;
-
 }
 
 @media (max-width: 768px) {

@@ -283,7 +283,7 @@ footer {
     text-align: center;
   }
 
-@media (max-width: 768px) {
+@media (max-width: 667px) {
     #container {
         flex-direction: column;
     }
@@ -292,8 +292,8 @@ footer {
         margin-bottom: 20px;
     }
     .header-container {
-        flex-direction: column;
-        text-align: center;
+        text-align: start;
+        background-repeat: space;
     }
     .header_text {
         font-size: 30px; /* Ajusta el tamaño para móviles */
