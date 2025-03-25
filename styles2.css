@@ -147,6 +147,7 @@ p {
     flex-direction: column;  /* Ajustar el ancho del menú */
     max-width: 200px;
     overflow-y: auto;
+    outline: 2px solid #781ff4;
 
 }
 
@@ -170,11 +171,12 @@ p {
     color: var(--color-secundario);
     font-weight: bold;
     font-size: 1rem;
+    text-decoration: underline;
     transition: color 0.3s ease;
 }
 
 #navigator a:hover {
-    color: #6624e0;
+    color: #8e57f6b1;
     background-color: #2f2128;
     text-decoration: underline;
     border-radius: 5px;
@@ -203,6 +205,7 @@ main {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     flex: 2;  /* Permite que el main tenga más espacio que la sidebar */
     padding: 15px;
+    outline: 2px solid #781ff4;
 }
 
 #introduccion {
@@ -215,51 +218,62 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-}
-
-.contenedor {
-    width: 200px; /* Ajusta el tamaño según necesites */
-    height: 250px;
-    perspective: 1000px; /* Efecto 3D */
+    justify-content: flex-start;
+    max-width: 800px;
 }
 
 .caja {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.5s;
-}
-
-.contenedor:hover .caja {
-    transform: rotateY(180deg); /* Gira la caja al pasar el cursor */
-}
-
-.frente,
-.atras {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-}
-
-.frente img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajusta la imagen al tamaño sin deformarla */
-    border-radius: 10px;
-}
-
-.atras {
-    background: #231f1f60;
-    color: white;
-    font-size: 18px;
+    width: 160px;
     text-align: center;
-    transform: rotateY(180deg);
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imagen-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 200px; /* Tamaño fijo */
+}
+
+.imagen-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Hace que todas las imágenes tengan el mismo tamaño */
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Ocultar título por defecto */
+.titulo {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Animación cuando pasa el cursor */
+.caja:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.caja:hover .imagen-container img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* Mostrar el título al pasar el cursor */
+.caja:hover .titulo {
+    opacity: 1;
 }
 
 /* Estilos para el contacto */
@@ -278,7 +292,7 @@ main {
 
 /* Footer (si lo necesitas) */
 footer {
-    position: fixed;
+    position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;

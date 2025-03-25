@@ -141,10 +141,13 @@ p {
     flex-direction: column;  /* Ajustar el ancho del menú */
     max-width: 200px;
     overflow-y: auto;
+    outline: 2px solid #781ff4;
 }
 
 #navigator h2 {
     margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: var(--color-primario);
 }
 
 #navigator ul {
@@ -193,6 +196,7 @@ main {
     padding: clamp(10px, 1vw, 25px); /* Ajuste dinámico */
     color: var(--color-primario);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Mejora la legibilidad */
+    outline: 2px solid #781ff4;
 }
 
 #introduccion {
@@ -224,6 +228,8 @@ main {
     max-width: 250px;
     min-width: 200px;
     padding: 10px;
+    outline: 2px solid #781ff4;
+
 }
 
 /* Estilos para el contacto */
@@ -249,14 +255,14 @@ main {
     align-items: center;
     width: 100%; /* Permite que se ajuste dentro de la grid */
     padding: 10px 15px;
-    background: #ffffff;
+    background-color: aliceblue;
     border-radius: 50px;
     text-decoration: none;
     color: #2f2128;
     font-size: 15px;
     font-weight: bold;
     position: relative;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 10px rgba(209, 199, 199, 0.3);
     transition: transform 0.2s ease-in-out;
 }
 
