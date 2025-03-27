@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Netlify CMS</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/netlify-cms@2.10.5/dist/netlify-cms.min.css" />
-  </head>
-  <body>
-    <script src="https://unpkg.com/netlify-cms@2.10.4/dist/netlify-cms.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Mi Galería</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+    <h1>Bienvenido al Admin de Galería</h1>
+
+    <button id="login-btn">Iniciar sesión</button>
+    <button id="logout-btn" style="display:none;">Cerrar sesión</button>
+
+    <script>
+        // Inicializar Netlify Identity
+        netlifyIdentity.init();
+
+        const loginButton = document.getElementById("login-btn");
+        const logoutButton = document.getElementById("logout-btn");
+
+        // Evento de inicio de sesión
+        loginButton.addEventListener('click', () => {
+            netlifyIdentity.open(); // Abre el formulario de login
+        });
+
+        // Evento de cierre de sesión
+        logoutButton.addEventListener('click', () => {
+            netlifyIdentity.logout();
+        });
+
+        // Verificar el estado de autenticación
+        netlifyIdentity.on('login', user => {
+            console.log("Usuario autenticado:", user);
+            loginButton.style.display = "none";
+            logoutButton.style.display = "block";
+        });
+
+        netlifyIdentity.on('logout', () => {
+            console.log("Usuario desconectado");
+            loginButton.style.display = "block";
+            logoutButton.style.display = "none";
+        });
+    </script>
 </body>
 </html>

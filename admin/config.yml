@@ -1,7 +1,6 @@
 backend:
-  name: github
-  repo: Moisecx/portfolio  # Reemplázalo con tu usuario y repositorio de GitHub
-  branch: master  # O "main", dependiendo de tu rama principal
+  name: netlify
+  branch: master  # O la rama principal de tu repositorio (puede ser "main")
 
 media_folder: "img"  # Carpeta donde se guardarán las imágenes
 public_folder: "/img"  # Ruta pública de las imágenes
