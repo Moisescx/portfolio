@@ -1,17 +1,17 @@
 backend:
-  name: git-gateway  # Cambiado a git-gateway
-  repo: Moisecx/portfolio  # Asegúrate de que este es el nombre correcto de tu repositorio
-  branch: master  # O "main", dependiendo de cómo esté configurada tu rama principal
+  name: github
+  repo: Moisecx/portfolio  # Reemplázalo con tu usuario y repositorio de GitHub
+  branch: master  # O "main", dependiendo de tu rama principal
 
 media_folder: "img"  # Carpeta donde se guardarán las imágenes
-public_folder: "/img"  # Ruta pública donde se servirán las imágenes
+public_folder: "/img"  # Ruta pública de las imágenes
 
 collections:
   - name: "galeria"
     label: "Galería"
-    folder: "src/galeria"  # Carpeta donde se guardarán los archivos de la galería
-    create: true  # Permite crear nuevos archivos
-    slug: "{{slug}}"  # El slug para cada imagen se generará automáticamente
+    folder: "galeria"  # Nombre de la carpeta que se utilizará para almacenar los archivos
+    create: true  # Habilita la opción para crear nuevas imágenes
+    slug: "{{slug}}"
     fields:
-      - {label: "Título", name: "title", widget: "string"}  # Título de la imagen
-      - {label: "Imagen", name: "image", widget: "image"}  # Subir imagen
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Imagen", name: "image", widget: "image" }
