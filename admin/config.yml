@@ -1,6 +1,6 @@
 backend:
   name: git-gateway  # Cambiado a git-gateway
-  repo: Moisecx/Portfolio  # Asegúrate de que este es el nombre correcto de tu repositorio
+  repo: Moisecx/portfolio  # Asegúrate de que este es el nombre correcto de tu repositorio
   branch: master  # O "main", dependiendo de cómo esté configurada tu rama principal
 
 media_folder: "img"  # Carpeta donde se guardarán las imágenes
