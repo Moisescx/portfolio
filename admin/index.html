@@ -3,62 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Mi Galería</title>
-
-    <script src="app.js"></script>
+    <title>Panel de Administración</title>
+    <!-- Script esencial para Netlify Identity -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
+    <!-- Estilos básicos para el login -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        #netlify-identity-widget {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        .admin-panel {
+            display: none; /* Oculto hasta que el usuario inicie sesión */
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido al Admin de Galería</h1>
-
-    <button id="login-btn">Iniciar sesión</button>
-    <button id="register-btn" style="display:none;">Registrarse</button>
-    <button id="logout-btn" style="display:none;">Cerrar sesión</button>
+    <!-- Contenedor del CMS (se mostrará después del login) -->
+    <div class="admin-panel">
+        <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+        <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    </div>
 
     <script>
-        // Inicializar Netlify Identity
-        netlifyIdentity.init();
+        // Función para cerrar sesión
+        function logout() {
+            const netlifyIdentity = window.netlifyIdentity;
+            if (netlifyIdentity) netlifyIdentity.logout();
+            location.reload();
+        }
 
-        const loginButton = document.getElementById("login-btn");
-        const registerButton = document.getElementById("register-btn");
-        const logoutButton = document.getElementById("logout-btn");
+        // Control de acceso
+        document.addEventListener('DOMContentLoaded', function() {
+            const netlifyIdentity = window.netlifyIdentity;
+            
+            if (netlifyIdentity) {
+                netlifyIdentity.on('init', user => {
+                    if (user) {
+                        // Usuario logueado: mostrar panel
+                        document.querySelector('.admin-panel').style.display = 'block';
+                    } else {
+                        // Redirigir al login si no está autenticado
+                        netlifyIdentity.open('login');
+                    }
+                });
 
-        // Evento de inicio de sesión
-        loginButton.addEventListener('click', () => {
-            netlifyIdentity.open(); // Abre el formulario de login
-        });
-
-        // Evento de registro
-        registerButton.addEventListener('click', () => {
-            netlifyIdentity.open('signup'); // Abre el formulario de registro
-        });
-
-        // Evento de cierre de sesión
-        logoutButton.addEventListener('click', () => {
-            netlifyIdentity.logout();
-        });
-
-        // Verificar el estado de autenticación
-        netlifyIdentity.on('login', user => {
-            console.log("Usuario autenticado:", user);
-            loginButton.style.display = "none";
-            registerButton.style.display = "none";
-            logoutButton.style.display = "block";
-        });
-
-        netlifyIdentity.on('logout', () => {
-            console.log("Usuario desconectado");
-            loginButton.style.display = "block";
-            registerButton.style.display = "block";
-            logoutButton.style.display = "none";
-        });
-
-        // Mostrar el botón de registro si el usuario no está autenticado
-        netlifyIdentity.on('init', () => {
-            const user = netlifyIdentity.currentUser();
-            if (!user) {
-                registerButton.style.display = "block";
+                // Inicializar
+                netlifyIdentity.init();
+            } else {
+                alert('Error: Netlify Identity no se cargó correctamente');
             }
         });
     </script>

@@ -1,16 +1,20 @@
 backend:
-  name: netlify
-  branch: master  # O la rama principal de tu repositorio (puede ser "main")
+  name: git-gateway
+  branch: master
 
-media_folder: "img"  # Carpeta donde se guardarán las imágenes
-public_folder: "/img"  # Ruta pública de las imágenes
+media_folder: "img/galeria"  # Carpeta donde se guardarán las imágenes
+public_folder: "/img/galeria"  # Ruta pública
 
 collections:
   - name: "galeria"
     label: "Galería"
-    folder: "galeria"  # Nombre de la carpeta que se utilizará para almacenar los archivos
-    create: true  # Habilita la opción para crear nuevas imágenes
-    slug: "{{slug}}"
-    fields:
-      - { label: "Título", name: "title", widget: "string" }
-      - { label: "Imagen", name: "image", widget: "image" }
+    files:
+      - name: "galeria"
+        label: "Imágenes del Carrusel"
+        file: "data/galeria.json"  # Archivo JSON que generará Netlify CMS
+        fields:
+          - { name: "imagenes", label: "Imágenes", widget: "list", 
+              fields: [
+                { label: "Imagen", name: "src", widget: "image" },
+                { label: "Título", name: "titulo", widget: "string" }
+              ] }
