@@ -1,86 +1,23 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración</title>
-    <!-- Script esencial para Netlify Identity -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-      // Inicializar el widget de Identity
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        });
-      }
-    </script>    <!-- Estilos básicos para el login -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
-        #netlify-identity-widget {
-            max-width: 400px;
-            margin: 50px auto;
-        }
-        .admin-panel {
-            display: none; /* Oculto hasta que el usuario inicie sesión */
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .logout-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 8px 15px;
-            background: #ff4444;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>Admin</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-    <!-- Contenedor del CMS (se mostrará después del login) -->
-    <div class="admin-panel">
-        <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
-        <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-    </div>
-
-    <script>
-        // Función para cerrar sesión
-        function logout() {
-            const netlifyIdentity = window.netlifyIdentity;
-            if (netlifyIdentity) netlifyIdentity.logout();
-            location.reload();
-        }
-
-        // Control de acceso
-        document.addEventListener('DOMContentLoaded', function() {
-            const netlifyIdentity = window.netlifyIdentity;
-            
-            if (netlifyIdentity) {
-                netlifyIdentity.on('init', user => {
-                    if (user) {
-                        // Usuario logueado: mostrar panel
-                        document.querySelector('.admin-panel').style.display = 'block';
-                    } else {
-                        // Redirigir al login si no está autenticado
-                        netlifyIdentity.open('login');
-                    }
-                });
-
-                // Inicializar
-                netlifyIdentity.init();
-            } else {
-                alert('Error: Netlify Identity no se cargó correctamente');
-            }
+  <!-- Script del CMS -->
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+  
+  <!-- Script para manejar redirecciones -->
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
         });
-    </script>
+      });
+    }
+  </script>
 </body>
 </html>
