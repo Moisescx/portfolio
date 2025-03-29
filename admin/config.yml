@@ -1,20 +1,28 @@
 backend:
   name: git-gateway
-  branch: master
+  branch: main  # Cambia "master" a "main" (rama por defecto actual en GitHub)
 
-media_folder: "img/galeria"  # Carpeta donde se guardarán las imágenes
-public_folder: "/img/galeria"  # Ruta pública
+media_folder: "img/galeria"  
+public_folder: "/img/galeria"  
+
+# Añade esto para mejor manejo de imágenes
+media_library:
+  name: uploadcare
+  config:
+    publicKey: demopublickey
 
 collections:
   - name: "galeria"
     label: "Galería"
     files:
-      - name: "galeria"
+      - name: "data"  # Nombre interno (sin tildes)
         label: "Imágenes del Carrusel"
-        file: "data/galeria.json"  # Archivo JSON que generará Netlify CMS
+        file: "img/galeria/data.json"
         fields:
-          - { name: "imagenes", label: "Imágenes", widget: "list", 
-              fields: [
-                { label: "Imagen", name: "src", widget: "image" },
-                { label: "Título", name: "titulo", widget: "string" }
-              ] }
+          - name: "imagenes"
+            label: "Imágenes"
+            widget: "list"
+            summary: "{{fields.titulo}}"
+            fields:
+              - { label: "Título", name: "titulo", widget: "string" }
+              - { label: "Imagen", name: "src", widget: "image" }

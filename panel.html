@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel Admin</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+    <div id="login-container">
+        <h2>Acceso Restringido</h2>
+        <button id="loginBtn">Iniciar Sesión</button>
+    </div>
+
+    <div id="upload-container" style="display:none;">
+        <form id="uploadForm">
+            <input type="file" id="imageInput" accept="image/*" required>
+            <input type="text" id="imageTitle" placeholder="Título" required>
+            <button type="submit">Subir Imagen</button>
+        </form>
+    </div>
+
+    <script>
+        // Control de acceso
+        netlifyIdentity.on('init', user => {
+            if (user && user.email === 'moisesmarinavalos16@gmail.com') { // CAMBIA ESTO
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('upload-container').style.display = 'block';
+            }
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            netlifyIdentity.open('login');
+        });
+
+        // Lógica de subida (conectará con upload.js después)
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alert('Sistema de subida en desarrollo. Por ahora, usa FTP para añadir imágenes a /img/galeria/');
+        });
+    </script>
+</body>
+</html>
