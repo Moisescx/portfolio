@@ -21,8 +21,8 @@
 
     <script>
         // Control de acceso
-        netlifyIdentity.on('init', user => {
-            if (user && user.email === 'moisesmarinavalos16@gmail.com') { // CAMBIA ESTO
+        netlifyIdentity.on('init', user, password => {
+            if (user && user.email,password === 'moisesmarinavalos16@gmail.com') { // CAMBIA ESTO
                 document.getElementById('login-container').style.display = 'none';
                 document.getElementById('upload-container').style.display = 'block';
             }
