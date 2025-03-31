@@ -2,21 +2,26 @@ const fs = require('fs');
 const path = require('path');
 
 exports.handler = async (event) => {
-    const { file, filename } = JSON.parse(event.body);
-    
+    // Parsear datos del formulario
+    const formData = JSON.parse(event.body);
+    const fileBuffer = Buffer.from(formData.file, 'base64');
+    const filename = formData.filename;
+
     try {
-        // Guardar la imagen en /img/galeria/
-        const filePath = path.join(__dirname, '../../img/galeria', filename);
-        fs.writeFileSync(filePath, file);
+        // Ruta ABSOLUTA (crítica para Netlify)
+        const filePath = path.join(process.cwd(), 'img', 'galeria', filename);
+        
+        // Guardar archivo
+        fs.writeFileSync(filePath, fileBuffer);
         
         return {
             statusCode: 200,
-            body: JSON.stringify({ success: true })
+            body: JSON.stringify({ url: `/img/galeria/${filename}` })
         };
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: "Error al guardar la imagen" })
+            body: JSON.stringify({ error: error.message })
         };
     }
 };
