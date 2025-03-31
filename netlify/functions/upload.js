@@ -11,7 +11,7 @@ exports.handler = async (event) => {
       {
         message: `Subir imagen: ${title}`,
         content: Buffer.from(file).toString('base64'),
-        branch: 'main'
+        branch: 'master'
       },
       {
         headers: {
@@ -22,7 +22,7 @@ exports.handler = async (event) => {
     );
 
     // 2. Actualizar data.json
-    const dataJsonUrl = `https://api.github.com/repos/TU_USUARIO/TU_REPO/contents/img/galeria/data.json`;
+    const dataJsonUrl = `https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json`;
     
     // Obtener data.json actual
     const { data: { content, sha } } = await axios.get(dataJsonUrl, {
@@ -45,7 +45,7 @@ exports.handler = async (event) => {
         message: `Actualizar data.json con ${filename}`,
         content: Buffer.from(JSON.stringify(currentContent, null, 2)).toString('base64'),
         sha: sha, // Necesario para actualizar el archivo existente
-        branch: 'main'
+        branch: 'master'
       },
       {
         headers: {
