@@ -6,7 +6,7 @@ exports.handler = async (event) => {
     
     try {
         // Guardar la imagen en /img/galeria/
-        const filePath = path.join(process.cwd(), 'img', 'galeria', filename);
+        const filePath = path.join(__dirname, '../../img/galeria', filename);
         fs.writeFileSync(filePath, file);
         
         return {
