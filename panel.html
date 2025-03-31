@@ -20,14 +20,13 @@
 
     <!-- Formulario de Subida (oculto inicialmente) -->
     <form id="uploadForm">
-        <input type="file" id="imageInput" accept="image/*" required>
+        <input type="file" id="imageInput" accept="image/jpeg, image/png, image/webp" required>
         <input type="text" id="imageTitle" placeholder="Título" required>
         <button type="submit">Subir</button>
     </form>
-    <script src="js/carrusel.js"></script>
+    <script src="js/script.js"></script>
 
-
-        <script>
+    <script>
         // Contraseña hardcodeada (cámbiala)
         const CONTRASEÑA = "4&zW4~/~G}Kfpd05MtD8'rEIEnn_";
 
@@ -42,40 +41,54 @@
         }
 
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const file = document.getElementById('imageInput').files[0];
-  const title = document.getElementById('imageTitle').value;
+            e.preventDefault();
+            
+            const file = document.getElementById('imageInput').files[0];
+            const title = document.getElementById('imageTitle').value;
 
-  // 1. Convertir imagen a Base64
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = async () => {
-    const base64File = reader.result.split(',')[1];
-    const filename = `img-${Date.now()}.${file.name.split('.').pop()}`;
+            // Validación de tipo de archivo
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                alert('Solo se permiten imágenes JPG, PNG o WEBP');
+                return;
+            }
 
-    // 2. Llamar a la función de Netlify
-    const response = await fetch('/.netlify/functions/upload', {
-      method: 'POST',
-      body: JSON.stringify({
-        file: base64File,
-        filename: filename,
-        title: title
-      }),
-      headers: { 'Content-Type': 'application/json' }
-    });
+            // 1. Convertir imagen a Base64
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const base64File = reader.result.split(',')[1];
+                const filename = `img-${Date.now()}.${file.name.split('.').pop().toLowerCase()}`;
 
-    // 3. Manejar respuesta
-    const result = await response.json();
-    if (response.ok) {
-      alert('¡Imagen subida! El sitio se actualizará en 1-2 minutos.');
-      setTimeout(() => location.reload(), 3000); // Recargar después
-    } else {
-      alert(`Error: ${result.details?.message || 'Ver la consola (F12)'}`);
-      console.error(result);
-    }
-  };
-});   
+                // 2. Llamar a la función de Netlify
+                try {
+                    const response = await fetch('/.netlify/functions/upload', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            file: base64File,
+                            filename: filename,
+                            title: title
+                        }),
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    // 3. Manejar respuesta
+                    const result = await response.json();
+                    if (response.ok) {
+                        alert('¡Imagen subida correctamente! La galería se actualizará en breve.');
+                        setTimeout(() => location.reload(), 3000);
+                    } else {
+                        throw new Error(result.details?.message || 'Error desconocido');
+                    }
+                } catch (error) {
+                    alert(`Error al subir: ${error.message}`);
+                    console.error("Detalles del error:", error);
+                }
+            };
+            reader.onerror = () => {
+                alert('Error al leer el archivo');
+            };
+        });   
     </script>
 </body>
 </html>
