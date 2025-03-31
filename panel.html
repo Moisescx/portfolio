@@ -25,6 +25,8 @@
         <button type="submit">Subir</button>
     </form>
     <script src="js/carrusel.js"></script>
+
+
         <script>
         // Contraseña hardcodeada (cámbiala)
         const CONTRASEÑA = "4&zW4~/~G}Kfpd05MtD8'rEIEnn_";
@@ -40,11 +42,22 @@
         }
 
         // Lógica de subida (simulada)
-        document.getElementById("uploadForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            alert("Imagen subida (simulación). En la versión final, esto guardará la imagen.");
-            this.reset();
-        });
-    </script>
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const file = document.getElementById('imageInput').files[0];
+    const title = document.getElementById('imageTitle').value;
+
+    if (file && title) {
+        const resultado = await subirImagen(file, title);
+        if (resultado) {
+            alert('¡Imagen subida correctamente!');
+            document.getElementById('uploadForm').reset();
+            await actualizarGaleria(); // Actualiza el carrusel
+        } else {
+            alert('Error al subir la imagen. Intenta nuevamente.');
+        }
+    }
+});    </script>
 </body>
 </html>

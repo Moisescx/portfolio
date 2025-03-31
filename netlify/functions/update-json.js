@@ -2,13 +2,11 @@ const fs = require('fs');
 const path = require('path');
 
 exports.handler = async (event) => {
-    const { file, filename } = JSON.parse(event.body);
+    const { imagenes } = JSON.parse(event.body);
+    const filePath = path.join(process.cwd(), 'img', 'galeria', 'data.json');
     
     try {
-        // Guardar la imagen en /img/galeria/
-        const filePath = path.join(process.cwd(), 'img', 'galeria', filename);
-        fs.writeFileSync(filePath, file);
-        
+        fs.writeFileSync(filePath, JSON.stringify(imagenes, null, 2));
         return {
             statusCode: 200,
             body: JSON.stringify({ success: true })
@@ -16,7 +14,7 @@ exports.handler = async (event) => {
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: "Error al guardar la imagen" })
+            body: JSON.stringify({ error: "Error al actualizar JSON" })
         };
     }
 };

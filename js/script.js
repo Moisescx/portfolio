@@ -71,23 +71,61 @@ function mostrarCarrusel(imagenes) {
 
 // 3. Función para SUBIR IMÁGENES (NUEVO)
 async function subirImagen(file, title) {
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('title', title);
-
-    try {
-        const response = await fetch('/.netlify/functions/upload', {
-            method: 'POST',
-            body: formData
-        });
-        
-        if (!response.ok) throw new Error('Error al subir');
-        return await response.json();
-    } catch (error) {
-        console.error("Error:", error);
-        return null;
-    }
+  
+  // 1. Crear un nombre único para la imagen
+  const nombreArchivo = `${Date.now()}-${file.name}`;
+  const rutaImagen = `img/galeria/${nombreArchivo}`;
+  
+  // 2. Subir la imagen al servidor (usando Netlify Functions)
+  try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('filename', nombreArchivo);
+      
+      const response = await fetch('/.netlify/functions/upload', {
+          method: 'POST',
+          body: formData
+      });
+      
+      if (!response.ok) throw new Error('Error al subir');
+      
+      // 3. Actualizar el JSON con la nueva imagen
+      const nuevaImagen = {
+          src: rutaImagen,
+          titulo: title
+      };
+      
+      await actualizarJSON(nuevaImagen);
+      return true;
+      
+  } catch (error) {
+      console.error("Error:", error);
+      return false;
+  }
 }
+
+// Función para actualizar el JSON (añade nuevas imágenes)
+async function actualizarJSON(nuevaImagen) {
+  try {
+      // 1. Obtener imágenes existentes
+      const response = await fetch('img/galeria/data.json');
+      const imagenes = await response.json() || [];
+      
+      // 2. Añadir la nueva imagen
+      imagenes.push(nuevaImagen);
+      
+      // 3. Guardar el JSON actualizado (esto requiere una función en Netlify)
+      await fetch('/.netlify/functions/update-json', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imagenes })
+      });
+      
+  } catch (error) {
+      console.error("Error actualizando JSON:", error);
+  }
+}
+
 
 // 4. Función para ACTUALIZAR EL CARRUSEL después de subir
 async function actualizarGaleria() {
