@@ -1,34 +1,30 @@
 const axios = require('axios');
 
 exports.handler = async (event) => {
-  try {
-    const { file, filename, title } = JSON.parse(event.body);
-    const imagePath = `img/galeria/${filename}`;
-    
-    // 1. Validar tipo de archivo
-    const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
-    const fileExtension = filename.slice(filename.lastIndexOf('.')).toLowerCase();
-    
-    if (!validExtensions.includes(fileExtension)) {
-      throw new Error(`Formato no soportado. Usa: ${validExtensions.join(', ')}`);
-    }
-
-    // 2. Subir la imagen (como binario)
-    const imageResponse = await axios.put(
-      `https://api.github.com/repos/Moisescx/portfolio/contents/${imagePath}`,
-      {
-        message: `Subir imagen: ${title}`,
-        content: Buffer.from(file, 'base64'),
-        branch: 'master'
-      },
-      {
-        headers: {
-          'Authorization': `token ${process.env.GITHUB_TOKEN}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
+    try {
+        const { file, filename, title, size } = JSON.parse(event.body);
+        
+        // 1. Validar tamaño (opcional)
+        if (size > 5 * 1024 * 1024) { // 5MB máximo
+            throw new Error("La imagen es demasiado grande (máx. 5MB)");
         }
-      }
-    );
+
+        // 2. Subir a GitHub
+        const imageResponse = await axios.put(
+            `https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/${filename}`,
+            {
+                message: `Subir imagen: ${title}`,
+                content: file,
+                branch: 'master'
+            },
+            {
+                headers: {
+                    'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            }
+        );
+
 
     // 3. Actualizar data.json
     const dataJsonUrl = `https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json`;
@@ -66,19 +62,19 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({ 
-        success: true,
-        imageUrl: `https://raw.githubusercontent.com/Moisescx/portfolio/master/${imagePath}`
+          success: true,
+          url: `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`
       })
-    };
-    
-  } catch (error) {
-    return {
+  };
+
+} catch (error) {
+  return {
       statusCode: 500,
       body: JSON.stringify({ 
-        error: "Error en el proceso",
-        details: error.response?.data || error.message,
-        step: error.step || 'unknown'
+          error: error.message,
+          step: "subir-imagen",
+          stack: error.stack 
       })
-    };
-  }
+  };
+}
 };

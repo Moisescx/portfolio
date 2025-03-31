@@ -59,64 +59,70 @@
 
         // Subida de imágenes
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const file = document.getElementById('imageInput').files[0];
-            const title = document.getElementById('imageTitle').value;
-            const submitBtn = document.getElementById('submitBtn');
-            const statusMsg = document.getElementById('uploadStatus');
+    e.preventDefault();
+    
+    const file = document.getElementById('imageInput').files[0];
+    const title = document.getElementById('imageTitle').value;
+    const submitBtn = document.querySelector('#uploadForm button[type="submit"]');
+    const statusMsg = document.getElementById('uploadStatus');
 
-            // Validación
-            if (!file || !title) {
-                statusMsg.textContent = "¡Se requieren ambos campos!";
-                statusMsg.style.color = "red";
-                return;
-            }
+    // Validación mejorada
+    if (!file || !title) {
+        statusMsg.textContent = "⚠️ ¡Imagen y título son obligatorios!";
+        statusMsg.style.color = "orange";
+        return;
+    }
 
-            // Configurar estado de carga
-            submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
-            statusMsg.textContent = "Subiendo imagen...";
-            statusMsg.style.color = "blue";
+    // Mostrar estado
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Subiendo...";
+    statusMsg.textContent = "Procesando imagen...";
+    statusMsg.style.color = "blue";
 
-            try {
-                // Convertir a Base64
-                const base64File = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result.split(',')[1]);
-                    reader.onerror = () => reject(new Error("Error al leer el archivo"));
-                    reader.readAsDataURL(file);
-                });
-
-                // Enviar a Netlify Function
-                const response = await fetch('/.netlify/functions/upload', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        file: base64File,
-                        filename: `img-${Date.now()}.${file.name.split('.').pop().toLowerCase()}`,
-                        title: title
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) throw new Error(result.error || "Error en el servidor");
-
-                // Éxito
-                statusMsg.textContent = "✅ Imagen subida. La página se actualizará...";
-                statusMsg.style.color = "green";
-                setTimeout(() => location.reload(), 2000);
-
-            } catch (error) {
-                console.error("Error completo:", error);
-                statusMsg.textContent = `❌ Error: ${error.message}`;
-                statusMsg.style.color = "red";
-            } finally {
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-            }
+    try {
+        // 1. Convertir a Base64
+        const base64File = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = (error) => reject(new Error("No se pudo leer el archivo"));
+            reader.readAsDataURL(file);
         });
-    </script>
+
+        // 2. Llamar a la función de Netlify
+        const response = await fetch('/.netlify/functions/upload', {
+            method: 'POST',
+            body: JSON.stringify({
+                file: base64File,
+                filename: `img-${Date.now()}.${file.name.split('.').pop().toLowerCase()}`,
+                title: title,
+                size: file.size
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        // 3. Manejar respuesta
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Error en el servidor");
+        }
+
+        statusMsg.textContent = "✅ ¡Imagen subida! Actualizando...";
+        statusMsg.style.color = "green";
+        setTimeout(() => location.reload(), 2000);
+
+    } catch (error) {
+        console.error("Error completo:", error);
+        statusMsg.textContent = `❌ Error: ${error.message}`;
+        statusMsg.style.color = "red";
+        
+        // Debug adicional
+        if (error.message.includes("Failed to fetch")) {
+            statusMsg.textContent += " - ¿Estás online?";
+        }
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Subir";
+    }
+});    </script>
 </body>
 </html>
