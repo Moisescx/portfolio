@@ -42,36 +42,40 @@
         }
 
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const file = document.getElementById('imageInput').files[0];
-    const title = document.getElementById('imageTitle').value;
+  e.preventDefault();
+  
+  const file = document.getElementById('imageInput').files[0];
+  const title = document.getElementById('imageTitle').value;
 
-    // Convertir imagen a Base64
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = async () => {
-        const base64File = reader.result.split(',')[1];
-        
-        const response = await fetch('/.netlify/functions/upload', {
-            method: 'POST',
-            body: JSON.stringify({
-                file: base64File,
-                filename: `img-${Date.now()}.${file.name.split('.').pop()}`
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        
-        const result = await response.json();
-        if (response.ok) {
-            alert('¡Imagen subida con éxito!');
-            location.reload(); // Recarga para ver cambios
-        } else {
-            alert(`Error: ${result.error}`);
-        }
-    };
-});
-      
+  // 1. Convertir imagen a Base64
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = async () => {
+    const base64File = reader.result.split(',')[1];
+    const filename = `img-${Date.now()}.${file.name.split('.').pop()}`;
+
+    // 2. Llamar a la función de Netlify
+    const response = await fetch('/.netlify/functions/upload', {
+      method: 'POST',
+      body: JSON.stringify({
+        file: base64File,
+        filename: filename,
+        title: title
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    // 3. Manejar respuesta
+    const result = await response.json();
+    if (response.ok) {
+      alert('¡Imagen subida! El sitio se actualizará en 1-2 minutos.');
+      setTimeout(() => location.reload(), 3000); // Recargar después
+    } else {
+      alert(`Error: ${result.details?.message || 'Ver la consola (F12)'}`);
+      console.error(result);
+    }
+  };
+});   
     </script>
 </body>
 </html>

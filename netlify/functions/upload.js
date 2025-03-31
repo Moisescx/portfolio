@@ -1,27 +1,40 @@
-const fs = require('fs');
-const path = require('path');
+const axios = require('axios');
 
 exports.handler = async (event) => {
-    // Parsear datos del formulario
-    const formData = JSON.parse(event.body);
-    const fileBuffer = Buffer.from(formData.file, 'base64');
-    const filename = formData.filename;
+  try {
+    // 1. Parsear datos del formulario
+    const { file, filename, title } = JSON.parse(event.body);
+    
+    // 2. Subir imagen a GitHub
+    await axios.put(
+      `https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/${filename}`,
+      {
+        message: `Subida: ${title}`,
+        content: Buffer.from(file).toString('base64'),
+        branch: 'master'
+      },
+      {
+        headers: {
+          'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      }
+    );
 
-    try {
-        // Ruta ABSOLUTA (crítica para Netlify)
-        const filePath = path.join(process.cwd(), 'img', 'galeria', filename);
-        
-        // Guardar archivo
-        fs.writeFileSync(filePath, fileBuffer);
-        
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ url: `/img/galeria/${filename}` })
-        };
-    } catch (error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: error.message })
-        };
-    }
+    // 3. Actualizar data.json (opcional)
+    // ... (te ayudo con esto después)
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ success: true })
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ 
+        error: "Error al subir",
+        details: error.response?.data || error.message
+      })
+    };
+  }
 };
