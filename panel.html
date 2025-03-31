@@ -41,22 +41,37 @@
             }
         }
 
-      document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-       e.preventDefault();
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
     
     const file = document.getElementById('imageInput').files[0];
     const title = document.getElementById('imageTitle').value;
 
-    if (file && title) {
-        const resultado = await subirImagen(file, title);
-        if (resultado) {
-            alert('¡Imagen subida correctamente!');
-            document.getElementById('uploadForm').reset();
-            await actualizarGaleria(); // Actualiza el carrusel
+    // Convertir imagen a Base64
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+        const base64File = reader.result.split(',')[1];
+        
+        const response = await fetch('/.netlify/functions/upload', {
+            method: 'POST',
+            body: JSON.stringify({
+                file: base64File,
+                filename: `img-${Date.now()}.${file.name.split('.').pop()}`
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+            alert('¡Imagen subida con éxito!');
+            location.reload(); // Recarga para ver cambios
         } else {
-            alert('Error al subir la imagen. Intenta nuevamente.');
+            alert(`Error: ${result.error}`);
         }
-    }
-});    </script>
+    };
+});
+      
+    </script>
 </body>
 </html>
