@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: main  # Cambia "master" a "main" (rama por defecto actual en GitHub)
+  branch: master  # Cambia "master" a "main" (rama por defecto actual en GitHub)
 
 media_folder: "img/galeria"  
 public_folder: "/img/galeria"  
