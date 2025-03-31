@@ -108,6 +108,26 @@
     <footer>
         
         <p>&copy; 2024 TuNombre. Todos los derechos reservados. </p>
+
+        <button id="adminLoginBtn" style="display: none; position: fixed; bottom: 20px; right: 20px; padding: 10px; background: #3a7bd5; color: white; border: none; border-radius: 5px;">
+            Acceder al Panel
+         </button>
+   
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    // Muestra el botón SOLO si el usuario está invitado
+    netlifyIdentity.on('init', user => {
+      if (user || window.location.hash.includes('invite_token')) {
+        document.getElementById('adminLoginBtn').style.display = 'block';
+      }
+    });
+  
+    // Abre el widget de Netlify al hacer clic
+    document.getElementById('adminLoginBtn').onclick = () => {
+      netlifyIdentity.open();
+    };
+  </script>
+  
     </footer>
 
     <script src="js/script.js"></script>
