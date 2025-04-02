@@ -2,5 +2,6 @@
   "imagenes": [
     { "src": "img/galeria/imagen1.jpg", "titulo": "Texto" },
     { "src": "img/galeria/imagen2.jpg", "titulo": "Texto" }
+
   ]
 }
