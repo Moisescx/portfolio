@@ -1,28 +1,54 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Panel Admin</title>
     <style>
-        body { font-family: Arial; background: #f5f5f5; text-align: center; padding: 50px; }
-        #loginForm { background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: 0 auto; }
-        #uploadForm { 
-            display: none; /* Oculto hasta login */
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            text-align: center;
+            padding: 50px;
+        }
+
+        #loginForm {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #uploadForm {
+            display: none;
+            /* Oculto hasta login */
             background: white;
             padding: 20px;
             border-radius: 8px;
             max-width: 400px;
             margin: 20px auto;
         }
-        #uploadForm input, #uploadForm button {
+
+        #uploadForm input,
+        #uploadForm button {
             display: block;
             width: 100%;
             margin: 10px 0;
             padding: 8px;
         }
-        #errorMsg { color: red; display: none; }
-        .loading { opacity: 0.7; cursor: wait; }
+
+        #errorMsg {
+            color: red;
+            display: none;
+        }
+
+        .loading {
+            opacity: 0.7;
+            cursor: wait;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Formulario de Login -->
@@ -57,72 +83,86 @@
             }
         }
 
-        // Subida de imágenes
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const file = document.getElementById('imageInput').files[0];
-    const title = document.getElementById('imageTitle').value;
-    const submitBtn = document.querySelector('#uploadForm button[type="submit"]');
-    const statusMsg = document.getElementById('uploadStatus');
+            e.preventDefault();
 
-    // Validación mejorada
-    if (!file || !title) {
-        statusMsg.textContent = "⚠️ ¡Imagen y título son obligatorios!";
-        statusMsg.style.color = "orange";
-        return;
-    }
+            const file = document.getElementById('imageInput').files[0];
+            const title = document.getElementById('imageTitle').value;
+            const submitBtn = document.querySelector('#uploadForm button[type="submit"]');
+            const statusMsg = document.getElementById('uploadStatus');
 
-    // Mostrar estado
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Subiendo...";
-    statusMsg.textContent = "Procesando imagen...";
-    statusMsg.style.color = "blue";
+            // Validación mejorada
+            if (!file || !title) {
+                statusMsg.textContent = "⚠️ ¡Imagen y título son obligatorios!";
+                statusMsg.style.color = "orange";
+                return;
+            }
 
-    try {
-        // 1. Convertir a Base64
-        const base64File = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = (error) => reject(new Error("No se pudo leer el archivo"));
-            reader.readAsDataURL(file);
-        });
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                statusMsg.textContent = "⚠️ Solo se permiten imágenes JPEG, PNG o WebP.";
+                statusMsg.style.color = "orange";
+                return;
+            }
 
-        // 2. Llamar a la función de Netlify
-        const response = await fetch('/.netlify/functions/upload', {
-            method: 'POST',
-            body: JSON.stringify({
-                file: base64File,
-                filename: `img-${Date.now()}.${file.name.split('.').pop().toLowerCase()}`,
-                title: title,
-                size: file.size
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        });
+            if (file.size > 5 * 1024 * 1024) { // 5MB
+                statusMsg.textContent = "⚠️ El archivo es demasiado grande (máx. 5MB).";
+                statusMsg.style.color = "orange";
+                return;
+            }
 
-        // 3. Manejar respuesta
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || "Error en el servidor");
-        }
+            // Mostrar estado
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Subiendo...";
+            statusMsg.textContent = "Procesando imagen...";
+            statusMsg.style.color = "blue";
 
-        statusMsg.textContent = "✅ ¡Imagen subida! Actualizando...";
-        statusMsg.style.color = "green";
-        setTimeout(() => location.reload(), 2000);
+            try {
+                // Convertir a Base64
+                const base64File = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = (error) => reject(new Error("No se pudo leer el archivo"));
+                    reader.readAsDataURL(file);
+                });
 
-    } catch (error) {
-        console.error("Error completo:", error);
-        statusMsg.textContent = `❌ Error: ${error.message}`;
-        statusMsg.style.color = "red";
-        
-        // Debug adicional
-        if (error.message.includes("Failed to fetch")) {
-            statusMsg.textContent += " - ¿Estás online?";
-        }
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Subir";
-    }
-});    </script>
+                // Llamar a la función de Netlify
+                const filename = `img-${Date.now()}-${Math.random().toString(36).substring(2)}.${file.name.split('.').pop().toLowerCase()}`;
+                const response = await fetch('/.netlify/functions/upload', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        file: base64File,
+                        filename,
+                        title,
+                        size: file.size
+                    }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                // Manejar respuesta
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Error en el servidor");
+                }
+
+                statusMsg.textContent = "✅ ¡Imagen subida! Actualizando...";
+                statusMsg.style.color = "green";
+                setTimeout(() => location.reload(), 2000);
+
+            } catch (error) {
+                console.error("Error completo:", error);
+                statusMsg.textContent = `❌ Error: ${error.message}`;
+                statusMsg.style.color = "red";
+
+                if (error.message.includes("Failed to fetch")) {
+                    statusMsg.textContent += " - ¿Estás online?";
+                }
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Subir";
+            }
+        });   
+    </script>
 </body>
+
 </html>
