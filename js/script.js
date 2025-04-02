@@ -106,24 +106,19 @@ async function subirImagen(file, title) {
 
 // Función para actualizar el JSON (añade nuevas imágenes)
 async function actualizarJSON(nuevaImagen) {
-  try {
-      // 1. Obtener imágenes existentes
-      const response = await fetch('img/galeria/data.json');
-      const imagenes = await response.json() || [];
-      
-      // 2. Añadir la nueva imagen
-      imagenes.push(nuevaImagen);
-      
-      // 3. Guardar el JSON actualizado (esto requiere una función en Netlify)
-      await fetch('/.netlify/functions/update-json', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ imagenes })
-      });
-      
-  } catch (error) {
-      console.error("Error actualizando JSON:", error);
-  }
+    try {
+        const imagenes = await obtenerImagenes(); // Obtiene imágenes actuales
+        imagenes.push(nuevaImagen); // Añade la nueva imagen
+        
+        // Llama a la Netlify Function para guardar en GitHub
+        await fetch('/.netlify/functions/update-json', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(imagenes) // Envía el array completo
+        });
+    } catch (error) {
+        console.error("Error actualizando JSON:", error);
+    }
 }
 
 
