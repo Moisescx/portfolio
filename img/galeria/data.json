@@ -1,10 +1,12 @@
-[
-  {
-    "src": "img/galeria/imagen1.jpg",
-    "titulo": "I'm part of the FLCL <br> Reanimated Collab!!"
-  },
-  {
-    "src": "img/galeria/imagen2.jpg",
-    "titulo": "Texto"
-  }
-]
+{
+  "imagenes": [
+    {
+      "src": "img/galeria/imagen1.jpg",
+      "titulo": "I'm part of the FLCL <br> Reanimated Collab!!"
+    },
+    {
+      "src": "img/galeria/imagen2.jpg",
+      "titulo": "Texto"
+    }
+  ]
+}
