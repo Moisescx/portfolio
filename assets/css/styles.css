@@ -5,10 +5,49 @@
     box-sizing: border-box;
 }
 
+/*Animaciones*/
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 458px; /* Asegúrate de que coincida con el ancho del texto */
+    }
+}
+
+@keyframes cursor {
+    30% {
+        border-color: transparent;
+    }
+}
+
+@keyframes brillo {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.5);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
+
 :root {
     --color-primario: #D3CCE3;
     --color-secundario: #E9E4F0;
     --fondo-transparente: rgba(20, 30, 48, 0.6);
+    --sombra: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --borde: 2px solid #781ff4;
 }
 
 body::before {
@@ -39,14 +78,6 @@ body {
     position: relative;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
 
 /* Estilo para el encabezado */
 .header_text {
@@ -65,17 +96,6 @@ body {
     animation: typing 4s steps(12, end), cursor .4s steps(12, end) infinite;
 }
 
-@keyframes typing {
-    from {
-        width: 0;
-    }
-}
-
-@keyframes cursor {
-    30% {
-        border-color: transparent;
-    }
-}
 
 header img {
     max-width: 300px;
@@ -92,22 +112,12 @@ header img {
     margin: auto;
 }
 
-.header-left, .header-right {
+.header-left,
+.header-right {
     width: 100%;
     height: auto;
 }
 
-@keyframes brillo {
-    0% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(1.5);
-    }
-    100% {
-        filter: brightness(1);
-    }
-}
 .header-right, .header-left {
     animation: brillo 2s infinite alternate ease-in-out;
 }
@@ -127,6 +137,51 @@ p {
     font-size: 1em;
     
 }
+.button-53 {
+    background-color: #7348b0;
+    border: 0 solid #E5E7EB;
+    box-sizing: border-box;
+    color: #ffffff;
+    display: flex;
+    font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1.75rem;
+    padding: .75rem 1.65rem;
+    position: relative;
+    text-align: center;
+    text-decoration: none #000000 solid;
+    text-decoration-thickness: auto;
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    cursor: pointer;
+    transform: rotate(-2deg);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .button-53:focus {
+    outline: var(--borde);
+  }
+  
+  .button-53:after {
+    content: '';
+    position: absolute;
+    border: 1px solid #000000;
+    bottom: 4px;
+    left: 4px;
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+  }
+  
+  .button-53:hover:after {
+    bottom: 2px;
+    left: 2px;
+  }
+  
 
 /* Estilo de la navegación */
 #navigator {
@@ -141,7 +196,7 @@ p {
     flex-direction: column;  /* Ajustar el ancho del menú */
     max-width: 200px;
     overflow-y: auto;
-    outline: 2px solid #781ff4;
+    outline: var(--borde)
 }
 
 #navigator h2 {
@@ -181,6 +236,7 @@ p {
     min-width: 10%; /* Se ajusta en móviles */
     margin: 20px auto; /* Centrar */
     display: flex;
+    margin-bottom: 50px;
     flex-wrap: wrap; /* Permite mejor adaptación */
     justify-content: space-between;
     align-items: flex-start;
@@ -191,12 +247,12 @@ p {
 main {
     background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     border-radius: 12px;
-    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--sombra); /* Sombra para resaltar */
     flex: 2; /* Permite que el main tenga más espacio que la sidebar */
     padding: clamp(10px, 1vw, 25px); /* Ajuste dinámico */
     color: var(--color-primario);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Mejora la legibilidad */
-    outline: 2px solid #781ff4;
+    outline: var(--borde);
 }
 
 #introduccion {
@@ -211,24 +267,24 @@ main {
     max-width: 100%; /* Evita que la imagen sobresalga */
     height: auto; /* Mantiene la relación original */
     object-fit: cover; /* Recorta la imagen para ajustarla bien sin distorsión */
-    /* border-radius: 8px; Bordes redondeados para un mejor diseño */  
+    border-radius: 5px;  
     display: block; /* Para asegurar centrado */
     margin: 15px auto; /* Centra la imagen */
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1); /* Pequeña sombra para resaltar */
+    box-shadow: var(--sombra); /* Pequeña sombra para resaltar */
 }
 
 /* Barra lateral */
 #sidebar {
     background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     border-radius: 12px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--sombra);
     overflow: hidden;
     flex: 1; /* Hace que la sidebar sea más pequeña */
     width: 100%;
     max-width: 250px;
     min-width: 200px;
     padding: 10px;
-    outline: 2px solid #781ff4;
+    outline: var(--borde);
 
 }
 
@@ -262,7 +318,7 @@ main {
     font-size: 15px;
     font-weight: bold;
     position: relative;
-    box-shadow: 5px 5px 10px rgba(209, 199, 199, 0.3);
+    box-shadow: var(--sombra);
     transition: transform 0.2s ease-in-out;
 }
 
@@ -289,7 +345,7 @@ footer {
     text-align: center;
   }
 
-@media (max-width: 667px) {
+  @media (max-width: 667px) {
     #container {
         flex-direction: column;
     }
@@ -302,10 +358,9 @@ footer {
         background-repeat: space;
     }
     .header_text {
-        font-size: 30px; /* Ajusta el tamaño para móviles */
+        font-size: 2rem; /* Cambiado de 30px a 2rem */
     }
     .contact-list {
         grid-template-columns: 1fr; /* Solo una columna en pantallas pequeñas */
     }
-
-}
+  }

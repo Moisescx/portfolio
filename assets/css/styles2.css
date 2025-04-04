@@ -5,10 +5,49 @@
     box-sizing: border-box;
 }
 
+/*Animaciones*/
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 458px; /* Asegúrate de que coincida con el ancho del texto */
+    }
+}
+
+@keyframes cursor {
+    30% {
+        border-color: transparent;
+    }
+}
+
+@keyframes brillo {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.5);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
+
 :root {
     --color-primario: #D3CCE3;
     --color-secundario: #E9E4F0;
     --fondo-transparente: rgba(20, 30, 48, 0.6);
+    --sombra: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --borde: 2px solid #781ff4;
 }
 
 body::before {
@@ -37,18 +76,6 @@ body {
     font-display: swap;
     position: relative;
 }
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-
 /* Estilo para el encabezado */
 .header_text {
     font-family: "DotGothic16", sans-serif;
@@ -67,17 +94,6 @@ body {
 
 }
 
-@keyframes typing {
-    from {
-        width: 0
-    }
-}
-
-@keyframes cursor {
-    30% {
-        border-color: transparent
-    }
-}
 
 header img {
     max-width: 300px;
@@ -89,8 +105,7 @@ header img {
 .header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    /* Espacio entre los elementos */
+    justify-content: space-between; /* Espacio entre los elementos */
     max-width: 1200px;
     margin: auto;
 }
@@ -98,18 +113,6 @@ header img {
 .header-left, .header-right {
     width: 100%;
     height: auto;
-}
-
-@keyframes brillo {
-    0% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(1.5);
-    }
-    100% {
-        filter: brightness(1);
-    }
 }
 
 .header-img {
@@ -134,6 +137,51 @@ p {
 
 }
 
+.button-53 {
+    background-color: #7348b0;
+    border: 0 solid #E5E7EB;
+    box-sizing: border-box;
+    color: #ffffff;
+    display: flex;
+    font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1.75rem;
+    padding: .75rem 1.65rem;
+    position: relative;
+    text-align: center;
+    text-decoration: none #000000 solid;
+    text-decoration-thickness: auto;
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    cursor: pointer;
+    transform: rotate(-2deg);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .button-53:focus {
+    outline: var(--borde);
+  }
+  
+  .button-53:after {
+    content: '';
+    position: absolute;
+    border: 1px solid #000000;
+    bottom: 4px;
+    left: 4px;
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+  }
+  
+  .button-53:hover:after {
+    bottom: 2px;
+    left: 2px;
+  }
+
 
 /* Estilo de la navegación */
 #navigator {
@@ -149,7 +197,7 @@ p {
     flex-direction: column;  /* Ajustar el ancho del menú */
     max-width: 200px;
     overflow-y: auto;
-    outline: 2px solid #781ff4;
+    outline: var(--borde);
 }
 
 #navigator h2 {
@@ -194,6 +242,7 @@ p {
     flex-wrap: nowrap; /* Permite mejor adaptación */
     justify-content: flex-start;
     align-items: flex-start;
+    margin-bottom: 50px;
     gap: clamp(5px, 2vw, 20px); /* Espaciado dinámico */
 }
 
@@ -201,12 +250,12 @@ p {
 main {
     background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--sombra);
     flex: 1;  /* Permite que el main tenga más espacio que la sidebar */
     padding: 15px;
     min-width: 500px;
     display: block;
-    outline: 2px solid #781ff4;
+    outline: var(--borde);
 }
 
 #introduccion {
@@ -232,7 +281,7 @@ main {
     border-radius: 10px;
     overflow: hidden;
     background: transparent;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--sombra);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     justify-content: center;

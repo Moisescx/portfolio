@@ -1,28 +1,21 @@
-<!doctype html>
-<html lang="es">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
+    <link rel="stylesheet" href="assets/css/styles_tienda.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=DotGothic16&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="assets/css/styles.css" />
-
-
     <link rel="shortcut icon" href="img/iconos/imagen_base.ico" type="image/x-icon">
-
-    <title>PortFolio</title>
 </head>
-
 <body>
     <!-- Encabezado -->
     <header>
         <div class="header-container">
             <img src="assets/css/img/header-img.png" class="header-left" alt="Imagen izquierda">
-            <h1 class="header_text typing">W E L C O M E</h1>
+            <h1 class="header_text typing">T I E N D A</h1>
             <img src="assets/css/img/header-img.png" class="header-right" alt="Imagen derecha">
         </div>
     </header>
@@ -35,37 +28,44 @@
             <ul>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="about.html">Sobre Mi</a></li>
-            </ul>
-            <ul>
                 <li><a href="arte.html">Arte Samples</a></li>
             </ul>
-            <br>
-            <br>
-            <button class="button-53" role="button" onclick="location.href='tienda.html'">Tienda</button>
-
-            
         </nav>
 
         <!-- Contenido principal -->
         <main>
-            <section id="introduccion">
-                <h2>Intro</h2>
-                <p>
-                    ¡Bienvenido a mi página! Soy [tu nombre] y este es mi
-                    espacio para compartir mi trabajo.
-                </p>
-            </section>
+            <section id="productos">
+                <h2>Productos Disponibles</h2>
+                <div class="productos-grid">
+                    <!-- Producto 1 -->
+                    <div class="producto">
+                        <img src="img/productos/producto1.jpg" alt="Producto 1">
+                        <h3>Producto 1</h3>
+                        <p>Descripción breve del producto.</p>
+                        <p><strong>Precio:</strong> $10.00</p>
+                        <button class="button-53">Comprar</button>
+                    </div>
 
-            <section id="posts">
-                <h2>Primera publicacion - 01/02/2025</h2>
-                <p>¡Aqui ira una imagen por ejemplo! :D</p>
-                <img id="posts-image"
-                    src="https://steamuserimages-a.akamaihd.net/ugc/1818888114466750207/06EDABE5261D5FABD86D50EF21D1274A5A27DBE8/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
-                    alt="Imagen" />
-                <img id="posts-image" src="img/brandon.jpg" alt="BrandonCurao">
+                    <!-- Producto 2 -->
+                    <div class="producto">
+                        <img src="img/productos/producto2.jpg" alt="Producto 2">
+                        <h3>Producto 2</h3>
+                        <p>Descripción breve del producto.</p>
+                        <p><strong>Precio:</strong> $15.00</p>
+                        <button class="button-53">Comprar</button>
+                    </div>
+
+                    <!-- Producto 3 -->
+                    <div class="producto">
+                        <img src="img/productos/producto3.jpg" alt="Producto 3">
+                        <h3>Producto 3</h3>
+                        <p>Descripción breve del producto.</p>
+                        <p><strong>Precio:</strong> $20.00</p>
+                        <button class="button-53">Comprar</button>
+                    </div>
+                </div>
             </section>
         </main>
-
 
         <!-- Barra lateral -->
         <aside id="sidebar">
@@ -76,43 +76,24 @@
                         <img src="img/iconos/vgen_logo.jpeg" alt="Vgen">
                         <span>Vgen</span>
                     </a>
-    
                     <a href="https://doffito-k.newgrounds.com" target="_blank" class="boton">
                         <img src="img/iconos/Newgrounds-Logo.jpg" alt="Newgrounds">
                         <span>Newgrounds</span>
                     </a>
-    
                     <a href="x.com/DoffitoS" target="_blank" class="boton">
                         <img src="img/iconos/x.avif" alt="Twitter">
                         <span>Twitter</span>
                     </a>
-    
                     <a href="https://ko-fi.com/doffitok" target="_blank" class="boton">
                         <img src="img/iconos/ko-fi.png" alt="Ko-fi">
                         <span>Ko-fi</span>
-                    </a>
-    
-                    <a href="https://www.instagram.com/doffito.k/" target="_blank" class="boton">
-                        <img src="img/iconos/Instagram_logo.svg.png" alt="Instagram">
-                        <span>Instagram</span>
-                    </a>
-    
-                    <a href="https://doffito-k.itch.io" target="_blank" class="boton">
-                        <img src="img/iconos/itch-io-icon.png" alt="Itch.io">
-                        <span>Itch.io</span>
-                    </a>
-
-                    <a href="https://www.youtube.com/channel/UCtJfy04EYCxxuEBEkOwUltQ" target="_blank" class="boton">
-                        <img src="img/iconos/youtube.avif" alt="Youtube">
-                        <span>Youtube</span>
                     </a>
                 </div>
             </div>
         </aside>
     </div>
     <footer>
-        <p>&copy; 2025 TuNombre. Todos los derechos reservados. </p>
+        &copy; 2025 TuNombre. Todos los derechos reservados.
     </footer>
-
-    <script src="js/script.js"></script>
 </body>
+</html>
