@@ -24,24 +24,26 @@
     <!-- Encabezado -->
     <header>
         <div class="header-container">
-            <img src="assets/css/img/header-img.png"
-                class="header-img left" alt="Imagen izquierda">
-            <h1 class="header_text typing">A R T E</h1>
-            <img src="assets/css/img/header-img.png"
-                class="header-img right" alt="Imagen derecha">
+            <img src="assets/css/img/header-img.png" class="header-img left" alt="Imagen izquierda">
+            <h1 class="header_text typing" data-i18n="arte">A R T E <br></h1>
+            <img src="assets/css/img/header-img.png" class="header-img right" alt="Imagen derecha">
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
     </header>
 
     <!-- Contenedor principal -->
     <div id="container">
         <!-- Navegador -->
         <nav id="navigator">
-            <h2>Navegación</h2>
+            <h2 data-i18n="navegacion">Navegación</h2>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="about.html">Sobre Mi</a></li>
+                <li><a href="index.html" data-i18n="inicio" >Inicio</a></li>
+                <li><a href="about.html" data-i18n="sobre_mi">Sobre Mi</a></li>
             </ul>
             <ul>
-                <li><a href="arte.html">Arte Samples</a></li>
+                <li><a href="arte.html" data-i18n="arte_samples">Arte Samples</a></li>
             </ul>
             <br>
             <br>
@@ -65,6 +67,8 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/translation.js"></script>
 </body>
 
 </html>

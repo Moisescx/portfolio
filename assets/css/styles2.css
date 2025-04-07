@@ -5,6 +5,32 @@
     box-sizing: border-box;
 }
 
+.language-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+  }
+  
+  .lang-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    margin: 0 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .lang-btn.active {
+    background: #7737e5;
+    font-weight: bold;
+  }
+  .line-break {
+    display: block;
+    line-height: 1.2;
+  }
 /*Animaciones*/
 @keyframes fadeIn {
     from {

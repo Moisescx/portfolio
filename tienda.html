@@ -15,7 +15,7 @@
     <header>
         <div class="header-container">
             <img src="assets/css/img/header-img.png" class="header-left" alt="Imagen izquierda">
-            <h1 class="header_text typing">T I E N D A</h1>
+            <h1 class="header_text typing" data-i18n="tienda">T I E N D A</h1>
             <img src="assets/css/img/header-img.png" class="header-right" alt="Imagen derecha">
         </div>
     </header>
@@ -34,11 +34,11 @@
     
         <!-- Contenido principal -->
         <main>
-            <section id="productos">
-                <div class="productos-grid" id="productos-container">
-                    <!-- Productos generados dinámicamente -->
+            <div id="productos">
+                    <div class="productos-grid" id="productos-container">
+                        <!-- Aquí se generarán dinámicamente las tarjetas -->
+                    </div>
                 </div>
-            </section>
         </main>
     
         <!-- Barra lateral -->
@@ -53,10 +53,6 @@
         </aside>
     </div>
     
-    <footer>
-        &copy; 2025 TuNombre. Todos los derechos reservados.
-    </footer>
-
     <script src="js/vgen.js"></script>
 </body>
 </html>
