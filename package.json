@@ -5,6 +5,7 @@
         "axios": "^1.6.2",
         "cors-anywhere": "^0.4.4",
         "express": "^5.1.0",
+        "node-fetch": "^3.3.2",
         "ogp-parser": "^0.8.1"
     },
     "main": "server.js",
