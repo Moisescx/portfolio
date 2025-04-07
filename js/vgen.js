@@ -102,27 +102,36 @@ const productos = {
   }
   
   // Crear tarjeta con vista previa
-  async function crearTarjetaVGEN(producto) {
-    const ogData = await fetchOGData(producto.url);
-    
-    const tarjeta = document.createElement('div');
-    tarjeta.className = `producto-card ${producto.categoria}`;
-    tarjeta.style.display = 'none'; // Ocultar inicialmente
-    
-    tarjeta.innerHTML = `
-      <a href="${producto.url}" target="_blank" class="vgen-preview">
-        <img src="${ogData.image}" alt="${ogData.title}" class="vgen-image">
-        <div class="vgen-info">
-          <h3>${ogData.title}</h3>
-          <p>${ogData.description}</p>
-          <span class="vgen-price">${producto.nombre}</span>
-        </div>
-      </a>
-    `;
-    
-    return tarjeta;
-  }
-  
+  async function fetchOGData(url) {
+    if (cacheOGData[url]) {
+        return cacheOGData[url]; // Devuelve los datos en caché si existen
+    }
+
+    try {
+        const proxyUrl = `/.netlify/functions/proxy?url=${encodeURIComponent(url)}`;
+        const response = await fetch(proxyUrl);
+        const data = response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data, 'text/html');
+
+        const ogData = {
+            title: doc.querySelector('meta[property="og:title"]')?.content || "VGEN Profile",
+            image: doc.querySelector('meta[property="og:image"]')?.content || "fallback-image.jpg",
+            description: doc.querySelector('meta[property="og:description"]')?.content || "Ver en VGEN"
+        };
+
+        cacheOGData[url] = ogData; // Guarda los datos en caché
+        return ogData;
+    } catch (error) {
+        console.error("Error fetching OG data:", error);
+        return {
+            title: "Ver en VGEN",
+            image: "fallback-image.jpg",
+            description: "Click para visitar"
+        };
+    }
+}  
   // Mostrar productos por categoría (como ya tienes)
   async function mostrarCategoria(categoria) {
     const container = document.getElementById('productos-container');

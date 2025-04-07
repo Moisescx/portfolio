@@ -1,0 +1,5 @@
+[build]
+  functions = "netlify/functions" # Carpeta donde están las funciones
+
+[dev]
+  functions = "netlify/functions" # Para pruebas locales
