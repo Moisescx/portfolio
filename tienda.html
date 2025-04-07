@@ -22,7 +22,7 @@
 
     <!-- Contenedor principal -->
     <div id="container">
-        <!-- Navegador -->
+        <!-- Navegación -->
         <nav id="navigator">
             <h2>Navegación</h2>
             <ul>
@@ -31,69 +31,31 @@
                 <li><a href="arte.html">Arte Samples</a></li>
             </ul>
         </nav>
-
+    
         <!-- Contenido principal -->
         <main>
             <section id="productos">
-                <h2>Productos Disponibles</h2>
-                <div class="productos-grid">
-                    <!-- Producto 1 -->
-                    <div class="producto">
-                        <img src="img/productos/producto1.jpg" alt="Producto 1">
-                        <h3>Producto 1</h3>
-                        <p>Descripción breve del producto.</p>
-                        <p><strong>Precio:</strong> $10.00</p>
-                        <button class="button-53">Comprar</button>
-                    </div>
-
-                    <!-- Producto 2 -->
-                    <div class="producto">
-                        <img src="img/productos/producto2.jpg" alt="Producto 2">
-                        <h3>Producto 2</h3>
-                        <p>Descripción breve del producto.</p>
-                        <p><strong>Precio:</strong> $15.00</p>
-                        <button class="button-53">Comprar</button>
-                    </div>
-
-                    <!-- Producto 3 -->
-                    <div class="producto">
-                        <img src="img/productos/producto3.jpg" alt="Producto 3">
-                        <h3>Producto 3</h3>
-                        <p>Descripción breve del producto.</p>
-                        <p><strong>Precio:</strong> $20.00</p>
-                        <button class="button-53">Comprar</button>
-                    </div>
+                <div class="productos-grid" id="productos-container">
+                    <!-- Productos generados dinámicamente -->
                 </div>
             </section>
         </main>
-
+    
         <!-- Barra lateral -->
         <aside id="sidebar">
-            <div id="contact-list">
-                <h2>Contactos</h2>
-                <div id="contact">
-                    <a href="https://vgen.co/DoffitoK" target="_blank" class="boton">
-                        <img src="img/iconos/vgen_logo.jpeg" alt="Vgen">
-                        <span>Vgen</span>
-                    </a>
-                    <a href="https://doffito-k.newgrounds.com" target="_blank" class="boton">
-                        <img src="img/iconos/Newgrounds-Logo.jpg" alt="Newgrounds">
-                        <span>Newgrounds</span>
-                    </a>
-                    <a href="x.com/DoffitoS" target="_blank" class="boton">
-                        <img src="img/iconos/x.avif" alt="Twitter">
-                        <span>Twitter</span>
-                    </a>
-                    <a href="https://ko-fi.com/doffitok" target="_blank" class="boton">
-                        <img src="img/iconos/ko-fi.png" alt="Ko-fi">
-                        <span>Ko-fi</span>
-                    </a>
-                </div>
+            <h2>Filtro</h2>
+            <div id="categorias" class="categorias">
+                <button onclick="mostrarCategoria('illustrations')">Illustrations 🍲</button>
+                <button onclick="mostrarCategoria('illustrations_surprise')">Illustration Surprise me! 🐦‍⬛</button>
+                <button onclick="mostrarCategoria('streams')">Streams!</button>
+                <button onclick="mostrarCategoria('Character')">Your Character here! 🍵</button>
             </div>
         </aside>
     </div>
     <footer>
         &copy; 2025 TuNombre. Todos los derechos reservados.
     </footer>
+
+    <script src="js/vgen.js"></script>
 </body>
 </html>
