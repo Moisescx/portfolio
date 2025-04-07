@@ -212,58 +212,45 @@ main {
     outline: 2px solid #781ff4;
 }
 
-/* Estilos para el contacto */
+/* Estilos para la categoria */
 
-.contact-list {
-    display: grid; /* Usa CSS Grid para organizar en columnas */
-    grid-template-columns: repeat(2, 1fr); /* Dos columnas del mismo tamaño */
-    gap: 20px; /* Espaciado entre elementos */
+.categorias {
+    display: flex;
+    flex-direction: column; /* Alinea los botones verticalmente */
+    gap: 15px; /* Espaciado entre los botones */
+    margin-top: 20px;
 }
 
-.contact {
-    padding: 8px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espaciado entre icono y texto */
-    white-space: nowrap; /* Evita que el texto se corte en dos líneas */ 
-}
-
-.boton {
-    display: flex;
-    margin-bottom: 10px; /* Separa los botones 10px en la parte inferior */
-    align-items: center;
-    width: 100%; /* Permite que se ajuste dentro de la grid */
-    padding: 10px 15px;
-    background-color: aliceblue;
-    border-radius: 50px;
-    text-decoration: none;
-    color: #2f2128;
-    font-size: 15px;
+.categorias button {
+    background: linear-gradient(45deg, #6a0dad, #8e44ad); /* Gradiente de fondo */
+    color: white; /* Texto blanco */
+    border: none; /* Sin bordes */
+    border-radius: 12px; /* Bordes redondeados */
+    padding: 12px 20px;
+    font-size: 1rem;
     font-weight: bold;
-    position: relative;
-    box-shadow: 5px 5px 10px rgba(209, 199, 199, 0.3);
-    transition: transform 0.2s ease-in-out;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra inicial */
 }
 
-.boton:hover {
-    transform: scale(1.05);
+.categorias button:hover {
+    transform: scale(1.05); /* Efecto de escala */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
 }
 
-.boton img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+.categorias button:active {
+    transform: scale(0.95); /* Efecto de presión */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña */
 }
-
 /* Estilos para las tarjetas VGEN */
 
 .productos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajusta el tamaño mínimo de las columnas */
     gap: 20px; /* Espaciado entre los productos */
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 50px;
   }
 
@@ -291,7 +278,7 @@ main {
   .vgen-image {
     width: 100%; /* Ocupa todo el ancho del contenedor */
     height: auto; /* Mantiene las proporciones */
-    aspect-ratio: 4 / 3; /* Relación de aspecto 4:3 */
+    aspect-ratio: 4 / 3.2; /* Relación de aspecto 4:3 */
     object-fit: cover; /* Ajusta la imagen sin distorsión */
     border-radius: 8px;
     margin-bottom: 10px;
@@ -315,7 +302,7 @@ main {
 
 /* Footer */
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
