@@ -1,18 +1,23 @@
 const express = require('express');
-const ogpParser = require('ogp-parser');
-const app = express();
-const port = 3000;
+const corsAnywhere = require('cors-anywhere');
 
-app.get('/preview', async (req, res) => {
-  const url = req.query.url;
-  try {
-    const data = await ogpParser(url);
-    res.json(data); // Devuelve la vista previa
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener datos OGP' });
-  }
+const app = express();
+const PORT = 8080; // Cambia el puerto si es necesario
+
+// Configuración del proxy CORS
+const proxy = corsAnywhere.createServer({
+    originWhitelist: [], // Permitir todas las solicitudes
+    requireHeader: ['origin', 'x-requested-with'], // Opcional: restringir solicitudes
+    removeHeaders: ['cookie', 'cookie2'] // Elimina encabezados no necesarios
 });
 
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+// Ruta para manejar las solicitudes proxy
+app.use('/proxy', (req, res) => {
+    req.url = req.url.replace('/proxy/', '/'); // Ajusta la URL para el proxy
+    proxy.emit('request', req, res);
+});
+
+// Inicia el servidor
+app.listen(PORT, () => {
+    console.log(`Servidor proxy CORS activo en http://localhost:${PORT}`);
 });

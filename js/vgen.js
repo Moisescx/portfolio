@@ -77,38 +77,29 @@ const productos = {
   };
   
   // Función para extraer OG tags de una URL (usando proxy para evitar CORS)
-  const cacheOGData = {};
-
-async function fetchOGData(url) {
-    if (cacheOGData[url]) {
-        return cacheOGData[url]; // Devuelve los datos en caché si existen
-    }
-
+  async function fetchOGData(url) {
     try {
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-        const response = await fetch(proxyUrl);
-        const data = await response.json();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
-
-        const ogData = {
-            title: doc.querySelector('meta[property="og:title"]')?.content || "VGEN Profile",
-            image: doc.querySelector('meta[property="og:image"]')?.content || "fallback-image.jpg",
-            description: doc.querySelector('meta[property="og:description"]')?.content || "Ver en VGEN"
-        };
-
-        cacheOGData[url] = ogData; // Guarda los datos en caché
-        return ogData;
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+      const response = await fetch(proxyUrl);
+      const data = await response.json();
+      
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data.contents, 'text/html');
+      
+      return {
+        title: doc.querySelector('meta[property="og:title"]')?.content || "VGEN Profile",
+        image: doc.querySelector('meta[property="og:image"]')?.content || "fallback-image.jpg",
+        description: doc.querySelector('meta[property="og:description"]')?.content || "Ver en VGEN"
+      };
     } catch (error) {
-        console.error("Error fetching OG data:", error);
-        return {
-            title: "Ver en VGEN",
-            image: "fallback-image.jpg",
-            description: "Click para visitar"
-        };
+      console.error("Error fetching OG data:", error);
+      return {
+        title: "Ver en VGEN",
+        image: "fallback-image.jpg",
+        description: "Click para visitar"
+      };
     }
-}
+  }
   
   // Crear tarjeta con vista previa
   async function crearTarjetaVGEN(producto) {
@@ -119,15 +110,16 @@ async function fetchOGData(url) {
     tarjeta.style.display = 'none'; // Ocultar inicialmente
     
     tarjeta.innerHTML = `
-    <a href="${producto.url}" target="_blank" class="vgen-preview">
-      <img src="${ogData.image}" alt="${ogData.title}" class="vgen-image" loading="lazy">
-      <div class="vgen-info">
-        <h3>${ogData.title}</h3>
-        <p>${ogData.description}</p>
-        <span class="vgen-price">${producto.nombre}</span>
-      </div>
-    </a>
-  `;    
+      <a href="${producto.url}" target="_blank" class="vgen-preview">
+        <img src="${ogData.image}" alt="${ogData.title}" class="vgen-image">
+        <div class="vgen-info">
+          <h3>${ogData.title}</h3>
+          <p>${ogData.description}</p>
+          <span class="vgen-price">${producto.nombre}</span>
+        </div>
+      </a>
+    `;
+    
     return tarjeta;
   }
   
