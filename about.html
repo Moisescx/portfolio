@@ -24,35 +24,37 @@
     <!-- Encabezado -->
     <header>
         <div class="header-container">
-            <img src="assets/css/img/header-img.png"
-                class="header-img left" alt="Imagen izquierda">
-            <h1 class="header_text typing"data-i18n="sobre_mi">A B O U T <br> M E</h1>
-            <img src="assets/css/img/header-img.png"
-                class="header-img right" alt="Imagen derecha">
+            <img src="assets/css/img/header-img.png" class="header-img left" alt="Imagen izquierda">
+            <h1 class="header_text typing" data-i18n="sobre">S O B R E M I</h1>
+            <img src="assets/css/img/header-img.png" class="header-img right" alt="Imagen derecha">
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
     </header>
 
     <!-- Contenedor principal -->
     <div id="container">
         <!-- Navegador -->
         <nav id="navigator">
-            <h2>Navegación</h2>
+            <h2 data-i18n="navegacion">Navegación</h2>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="about.html">Sobre Mi</a></li>
+                <li><a href="index.html" data-i18n="inicio">Inicio</a></li>
+                <li><a href="about.html" data-i18n="sobre_mi">Sobre Mi</a></li>
             </ul>
             <ul>
-                <li><a href="arte.html">Arte Samples</a></li>
+                <li><a href="arte.html" data-i18n="arte_samples">Arte Samples</a></li>
             </ul>
             <br>
             <br>
-            <button class="button-53" role="button" onclick="location.href='tienda.html'">Tienda</button>
+            <button class="button-53" role="button" onclick="location.href='tienda.html'" data-i18n="tienda">Tienda</button>
 
         </nav>
 
         <!-- Contenido principal -->
         <main>
             <section id="introduccion">
-                <h2>Sobre Mi</h2>
+                <h2 data-i18n="sobre_mi">Sobre Mi</h2>
                 <p>
                     texto de ejemplo
                 </p>
@@ -67,6 +69,7 @@
         <!-- Barra lateral -->
         <aside id="sidebar">
             <h2>Contactos</h2>
+            <br>
             <div id="contact">
                 <a href="https://vgen.co/DoffitoK" target="_blank" class="boton">
                     <img src="img/iconos/vgen_logo.jpeg" alt="Vgen">
@@ -102,8 +105,8 @@
                     <img src="img/iconos/youtube.avif" alt="Youtube">
                     <span>Youtube</span>
                 </a>
-            </div>       
-    
+            </div>
+
         </aside>
     </div>
     <footer>

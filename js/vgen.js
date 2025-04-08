@@ -1,14 +1,17 @@
-// Datos de ejemplo (reemplaza con tus enlaces reales de VGEN)
 const productos = {
   illustrations: [
     {
-      nombre: "",
+      nombre: "Character Design",
       url: "https://vgen.co/DoffitoK/service/character-design-/1329ae0e-9d06-4c6f-9df6-fb1e278490c6",
+      imagen: "https://storage.googleapis.com/vgen-production-storage/uploads/a61c91d6-b7d3-4504-ac98-a9932b83a424/services/7c3a5aec-11a6-46ac-95fc-d192d7237e81.webp",
+      descripcion: '<span class="line-break">A Image of your character - Full body - </span><span class="line-break">The Color pallete</span><span class="line-break">Some references of details (Clothes, Teeths, etc)</span>',
       categoria: "illustrations",
     },
     {
-      nombre: "",
+      nombre: "Full-Body Character Illustration",
       url: "https://vgen.co/DoffitoK/service/full-body-character-illustration-/a479d3a2-130d-45b7-ad81-5559fa36d30f",
+      imagen: "https://storage.googleapis.com/vgen-production-storage/uploads/a61c91d6-b7d3-4504-ac98-a9932b83a424/services/c5b4edde-3308-4d39-b476-bfa6a309c213.webp",
+      descripcion: "A full body illustration of your character of choice.  (OC or Other)",
       categoria: "illustrations",
     },
     {
@@ -77,90 +80,109 @@ const productos = {
 
 const cacheOGData = {};
 
-async function fetchOGData(url) {
+async function fetchOGData(url, retries = 0) {
+  if (cacheOGData[url]) return cacheOGData[url];
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000);
+
   try {
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(
-      url
-    )}`;
-    const response = await fetch(proxyUrl);
-    const data = await response.json();
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+    const response = await fetch(proxyUrl, { signal: controller.signal });
+    clearTimeout(timeoutId);
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(data.contents, "text/html");
+    if (!response.ok) throw new Error("HTTP error " + response.status);
+    
+    const text = await response.text();
+    const doc = new DOMParser().parseFromString(text, "text/html");
 
-    return {
-      title:
-        doc.querySelector('meta[property="og:title"]')?.content ||
-        "VGEN Profile",
-      image:
-        doc.querySelector('meta[property="og:image"]')?.content ||
-        "fallback-image.jpg",
-      description:
-        doc.querySelector('meta[property="og:description"]')?.content ||
-        "Ver en VGEN",
+    let ogTitle = doc.querySelector('meta[property="og:title"]')?.content || "VGEN Profile";
+    let ogDescription = doc.querySelector('meta[property="og:description"]')?.content || "Ver en VGEN";
+    let ogImage = doc.querySelector('meta[property="og:image"]')?.content;
+
+    // Verificamos si la imagen es genérica
+    const esGenerica = !ogImage || ogImage.includes("vgen.co/_next/static") || ogImage.includes("default");
+
+    // Si es genérica, intentamos buscar una imagen real
+    if (esGenerica) {
+      const imagenReal = doc.querySelector("img[src*='storage.googleapis.com']");
+      if (imagenReal && imagenReal.src) {
+        ogImage = imagenReal.src;
+      } else {
+        // Imagen de respaldo si no encontramos ninguna útil
+        ogImage = "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
+      }
+    }
+
+    const ogData = {
+      title: ogTitle,
+      image: ogImage,
+      description: ogDescription,
     };
+
+    cacheOGData[url] = ogData;
+    return ogData;
+
   } catch (error) {
-    console.error("Error fetching OG data:", error);
+    console.warn("Error al obtener OG data:", error);
+    if (retries < 2) {
+      return fetchOGData(url, retries + 1);
+    }
     return {
       title: "Ver en VGEN",
-      image:
-        "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+      image: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
       description: "Click para visitar",
     };
   }
 }
 
 async function crearTarjetaVGEN(producto) {
-  const ogData = await fetchOGData(producto.url);
-
   const tarjeta = document.createElement("div");
   tarjeta.className = `producto-card ${producto.categoria}`;
-  tarjeta.style.display = "none"; // Ocultar inicialmente
 
   tarjeta.innerHTML = `
-      <a href="${producto.url}" target="_blank" class="vgen-preview">
-        <img src="${ogData.image}" alt="${ogData.title}" class="vgen-image">
-        <div class="vgen-info">
-          <h3>${ogData.title}</h3>
-          <p>${ogData.description}</p>
-          <span class="vgen-price">${producto.nombre}</span>
-        </div>
-      </a>
-    `;
+    <a href="${producto.url}" target="_blank" class="vgen-preview">
+      <img src="${producto.imagen}" 
+           alt="${producto.nombre}" 
+           class="vgen-image"
+           onerror="this.src='https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'">
+      <div class="vgen-info">
+        <h3>${producto.nombre}</h3>
+        <p>${producto.descripcion}</p>
+      </div>
+    </a>
+  `;
 
   return tarjeta;
 }
 
+
 async function mostrarCategoria(categoria) {
   const container = document.getElementById('productos-container');
-  console.log('Contenedor encontrado:', container);
+  if (!container) {
+    console.error("Contenedor 'productos-container' no encontrado.");
+    return;
+  }
 
   container.innerHTML = '';
-  console.log('Categoría seleccionada:', categoria);
 
   if (productos[categoria]) {
-      for (const producto of productos[categoria]) {
-          console.log('Creando tarjeta para producto:', producto);
-          const tarjeta = await crearTarjetaVGEN(producto);
-          container.appendChild(tarjeta);
-          tarjeta.style.display = 'block';
-      }
+    for (const producto of productos[categoria]) {
+      const tarjeta = await crearTarjetaVGEN(producto);
+      container.appendChild(tarjeta);
+    }
   } else {
-      console.log('No hay productos en esta categoría.');
-      container.innerHTML = '<p>No hay productos en esta categoría.</p>';
+    container.innerHTML = '<p>No hay productos en esta categoría.</p>';
   }
 }
-document.addEventListener("DOMContentLoaded", async () => {
-  // Precarga los datos de todas las categorías
-  for (const categoria in productos) {
-      const productosCategoria = productos[categoria];
-      if (productosCategoria) {
-          await Promise.all(
-              productosCategoria.map((producto) => fetchOGData(producto.url))
-          );
-      }
-  }
 
-  // Muestra la categoría inicial (por ejemplo, "illustrations")
+document.addEventListener("DOMContentLoaded", () => {
   mostrarCategoria("illustrations");
+
+  setTimeout(() => {
+    Object.values(productos).flat().slice(0, 6).forEach(item => {
+      const img = new Image();
+      img.src = item.url;
+    });
+  }, 2000);
 });

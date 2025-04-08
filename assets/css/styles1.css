@@ -27,6 +27,10 @@
     background: #7737e5;
     font-weight: bold;
   }
+  .line-break {
+    display: block;
+    line-height: 1.2;
+  }
 /*Animaciones*/
 @keyframes fadeIn {
     from {

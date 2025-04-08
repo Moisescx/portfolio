@@ -13,6 +13,51 @@
     --fondo-transparente: rgba(20, 30, 48, 0.6);
 }
 
+.line-break {
+    display: block;
+    line-height: 1.2;
+  }
+  
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+  
+@keyframes typing {
+    from {
+        width: 0;
+    }
+}
+
+@keyframes cursor {
+    30% {
+        border-color: transparent;
+    }
+}
+
+@keyframes brillo {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.5);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
+
+
+
 body::before {
     content: "";
     position: absolute;
@@ -41,14 +86,6 @@ body {
     position: relative;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
 
 /* Estilo para el encabezado */
 .header_text {
@@ -65,18 +102,6 @@ body {
     white-space: nowrap;
     border-right: 2px solid #cbcecf;
     animation: typing 4s steps(12, end), cursor .4s steps(12, end) infinite;
-}
-
-@keyframes typing {
-    from {
-        width: 0;
-    }
-}
-
-@keyframes cursor {
-    30% {
-        border-color: transparent;
-    }
 }
 
 header img {
@@ -99,17 +124,6 @@ header img {
     height: auto;
 }
 
-@keyframes brillo {
-    0% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(1.5);
-    }
-    100% {
-        filter: brightness(1);
-    }
-}
 .header-right, .header-left {
     animation: brillo 2s infinite alternate ease-in-out;
 }
@@ -280,8 +294,17 @@ main {
     aspect-ratio: 4 / 3.2; /* Relación de aspecto 4:3 */
     object-fit: cover; /* Ajusta la imagen sin distorsión */
     border-radius: 8px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;  
     margin-bottom: 10px;
   }
+
+  .vgen-image.loaded {
+    animation: none;
+    background: none;
+  }
+  
   
   .vgen-info {
     padding: 15px;
