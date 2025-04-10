@@ -69,100 +69,114 @@
     </form>
 
     <script>
-        // Contraseña
-        const CONTRASEÑA = "4&zW4~/~G}Kfpd05MtD8'rEIEnn_";
+        // Contraseña hash (SHA-256)
+        const PASSWORD_HASH = "5e884898da28047151d0e56f8dc6292773603d0d6aabbddf8e6f7f3e9e8e9f8a"; // Hash de "password"
 
-        // Login
-        function login() {
-            const input = document.getElementById("passwordInput").value;
-            if (input === CONTRASEÑA) {
-                document.getElementById("loginForm").style.display = "none";
-                document.getElementById("uploadForm").style.display = "block";
-            } else {
-                document.getElementById("errorMsg").style.display = "block";
-            }
+        // Función para calcular el hash SHA-256
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            return Array.from(new Uint8Array(hashBuffer))
+                .map(b => b.toString(16).padStart(2, "0"))
+                .join("");
         }
 
-        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Login
+// Login
+async function login() {
+    const input = document.getElementById("passwordInput").value;
 
-            const file = document.getElementById('imageInput').files[0];
-            const title = document.getElementById('imageTitle').value;
-            const submitBtn = document.querySelector('#uploadForm button[type="submit"]');
-            const statusMsg = document.getElementById('uploadStatus');
+    try {
+        const response = await fetch('/.netlify/functions/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: input }),
+        });
 
-            // Validación mejorada
-            if (!file || !title) {
-                statusMsg.textContent = "⚠️ ¡Imagen y título son obligatorios!";
-                statusMsg.style.color = "orange";
-                return;
-            }
+        if (!response.ok) {
+            throw new Error("Contraseña incorrecta");
+        }
 
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-            if (!allowedTypes.includes(file.type)) {
-                statusMsg.textContent = "⚠️ Solo se permiten imágenes JPEG, PNG o WebP.";
-                statusMsg.style.color = "orange";
-                return;
-            }
+        const { token } = await response.json();
+        localStorage.setItem("authToken", token); // Guarda el token en localStorage
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("uploadForm").style.display = "block";
+    } catch (error) {
+        document.getElementById("errorMsg").textContent = error.message;
+        document.getElementById("errorMsg").style.display = "block";
+    }
+}
 
-            if (file.size > 5 * 1024 * 1024) { // 5MB
-                statusMsg.textContent = "⚠️ El archivo es demasiado grande (máx. 5MB).";
-                statusMsg.style.color = "orange";
-                return;
-            }
+// Verificar autenticación al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("uploadForm").style.display = "block";
+    }
+});
 
-            // Mostrar estado
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Subiendo...";
-            statusMsg.textContent = "Procesando imagen...";
-            statusMsg.style.color = "blue";
+// Manejo del formulario de subida
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-            try {
-                // Convertir a Base64
-                const base64File = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result.split(',')[1]);
-                    reader.onerror = (error) => reject(new Error("No se pudo leer el archivo"));
-                    reader.readAsDataURL(file);
-                });
+    const file = document.getElementById('imageInput').files[0];
+    const title = document.getElementById('imageTitle').value;
+    const submitBtn = document.querySelector('#uploadForm button[type="submit"]');
+    const statusMsg = document.getElementById('uploadStatus');
+    const token = localStorage.getItem("authToken");
 
-                // Llamar a la función de Netlify
-                const filename = `img-${Date.now()}-${Math.random().toString(36).substring(2)}.${file.name.split('.').pop().toLowerCase()}`;
-                const response = await fetch('/.netlify/functions/upload', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        file: base64File,
-                        filename,
-                        title,
-                        size: file.size
-                    }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
+    if (!token) {
+        statusMsg.textContent = "⚠️ No estás autenticado.";
+        statusMsg.style.color = "red";
+        return;
+    }
 
-                // Manejar respuesta
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Error en el servidor");
-                }
+    try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Subiendo...";
+        statusMsg.textContent = "Procesando imagen...";
+        statusMsg.style.color = "blue";
 
-                statusMsg.textContent = "✅ ¡Imagen subida! Actualizando...";
-                statusMsg.style.color = "green";
-                setTimeout(() => location.reload(), 2000);
+        const base64File = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = (error) => reject(new Error("No se pudo leer el archivo"));
+            reader.readAsDataURL(file);
+        });
 
-            } catch (error) {
-                console.error("Error completo:", error);
-                statusMsg.textContent = `❌ Error: ${error.message}`;
-                statusMsg.style.color = "red";
+        const filename = `img-${Date.now()}-${Math.random().toString(36).substring(2)}.${file.name.split('.').pop().toLowerCase()}`;
+        const response = await fetch('/.netlify/functions/upload', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                file: base64File,
+                filename,
+                title,
+            }),
+        });
 
-                if (error.message.includes("Failed to fetch")) {
-                    statusMsg.textContent += " - ¿Estás online?";
-                }
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Subir";
-            }
-        });   
-    </script>
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Error en el servidor");
+        }
+
+        statusMsg.textContent = "✅ ¡Imagen subida correctamente!";
+        statusMsg.style.color = "green";
+    } catch (error) {
+        console.error("Error:", error);
+        statusMsg.textContent = `❌ Error: ${error.message}`;
+        statusMsg.style.color = "red";
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Subir";
+    }
+});    
+</script>
 </body>
 
 </html>

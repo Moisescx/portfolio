@@ -259,6 +259,7 @@ p {
     max-width: 900px; /* Más ancho en pantallas grandes */
     min-width: 10%; /* Se ajusta en móviles */
     margin: 20px auto; /* Centrar */
+    min-height: calc(100vh - 150px); /* Altura mínima para que el contenido ocupe casi toda la pantalla */
     display: flex;
     margin-bottom: 50px;
     flex-wrap: wrap; /* Permite mejor adaptación */
