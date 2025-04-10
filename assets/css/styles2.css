@@ -91,16 +91,18 @@ body::before {
 body {
     background-image: url("img/fondo_artesample.jpg");
     background-repeat: no-repeat;
-    background-size: cover ;
+    background-size: cover;
+    background-position: center;
     font-family: "Darumadrop One", serif;
     font-weight: 400;
     font-style: normal;
-    line-height: 1.6;
     min-height: 100vh;
+    line-height: 1.6;
     animation: fadeIn 0.5s ease-in-out;
     z-index: 1;
     font-display: swap;
     position: relative;
+    padding-bottom: 50px; /* Espaciado al final de la página */
 }
 /* Estilo para el encabezado */
 .header_text {
@@ -438,16 +440,24 @@ main {
 
 /* Footer (si lo necesitas) */
 footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: var(--fondo-transparente);
-    color: white;
     text-align: center;
-}
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  footer a {
+    color: #ff6b6b;
+    text-decoration: none;
+  }
+  
+  .dev-credit {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8rem;
+  }
 
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     #container {
         flex-direction: column;
     }

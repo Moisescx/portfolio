@@ -13,6 +13,29 @@
     --fondo-transparente: rgba(20, 30, 48, 0.6);
 }
 
+.language-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+  }
+  
+  .lang-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    margin: 0 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .lang-btn.active {
+    background: #7737e5;
+    font-weight: bold;
+  }
+
 .line-break {
     display: block;
     line-height: 1.2;
@@ -63,8 +86,8 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
     height: 100%;
+    width: 100%;
     background: rgba(0, 0, 0, 0.5); /* Overlay oscuro */
     z-index: -1;
 }
@@ -84,6 +107,7 @@ body {
     z-index: 1;
     font-display: swap;
     position: relative;
+    padding-bottom: 50px; /* Espaciado al final de la página */
 }
 
 
@@ -195,6 +219,7 @@ p {
     max-width: 1200px; /* Ancho máximo del contenedor */
     margin: 20px auto; /* Centrado horizontal */
     gap: 20px; /* Espaciado entre los elementos */
+    margin-bottom: 50px; /* Espaciado al final de la página */
 }
 
 /* Contenido principal */
@@ -274,12 +299,13 @@ main {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background: white;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra inicial */
   }
   
   .producto-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más intensa al pasar el mouse */
   }
   
   .vgen-preview {
@@ -290,8 +316,7 @@ main {
 
   .vgen-image {
     width: 100%; /* Ocupa todo el ancho del contenedor */
-    height: auto; /* Mantiene las proporciones */
-    aspect-ratio: 4 / 3.2; /* Relación de aspecto 4:3 */
+    height: 200px; /* Altura fija para mantener consistencia */
     object-fit: cover; /* Ajusta la imagen sin distorsión */
     border-radius: 8px;
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -305,37 +330,23 @@ main {
     background: none;
   }
   
-  
   .vgen-info {
-    padding: 15px;
+    padding: 10px;
+    text-align: left; /* Alinea el texto a la izquierda */
   }
   
   .vgen-info h3 {
     margin: 0 0 8px 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    color: #333;
   }
   
   .vgen-info p {
     margin: 0 0 10px 0;
     color: #666;
     font-size: 0.9rem;
+    line-height: 1.4;
   }
-
-
-/* Footer */
-footer {
-    position: fixed; /* Fijo en la parte inferior */
-    justify-content: center;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--fondo-transparente); /* Fondo oscuro con opacidad */
-    color: var(--color-secundario); /* Color del texto */
-    text-align: center;
-    padding: 10px 0;
-    font-size: 0.9rem;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Sombra superior */
-}
 
 
 @media (max-width: 667px) {

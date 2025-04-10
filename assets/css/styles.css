@@ -99,6 +99,7 @@ body {
     z-index: 1;
     font-display: swap;
     position: relative;
+    padding-bottom: 50px; /* Espaciado al final de la página */
 }
 
 
@@ -359,14 +360,23 @@ main {
 
 /* Footer */
 footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: var(--fondo-transparente);
-    color: white;
     text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #666;
   }
+  
+  footer a {
+    color: #ff6b6b;
+    text-decoration: none;
+  }
+  
+  .dev-credit {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8rem;
+  }
+
 
   @media (max-width: 667px) {
     #container {
