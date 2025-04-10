@@ -2,7 +2,7 @@ exports.handler = async (event, context) => {
     const { password } = JSON.parse(event.body || '{}'); // Recibe la contraseña desde el frontend
 
     // Contraseña segura almacenada en el servidor (puedes usar un hash en lugar de texto plano)
-    const SERVER_PASSWORD = "supersecurepassword";
+    const SERVER_PASSWORD = "4&zW4~/~G}Kfpd05MtD8'rEIEnn_~{~}v";
 
     if (password === SERVER_PASSWORD) {
         // Generar un token de sesión (puedes usar algo más robusto como JWT)
