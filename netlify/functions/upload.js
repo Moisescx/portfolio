@@ -48,41 +48,50 @@ async function actualizarDataJson(imagenes) {
   );
 }
 
-exports.handler = async (event, context) => {
-    const authHeader = event.headers.authorization;
+exports.handler = async (event) => {
+    try {
+        const { file, filename, title, size } = JSON.parse(event.body);
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        // 1. Validar tamaño
+        if (size > 5 * 1024 * 1024) {
+            throw new Error("La imagen es demasiado grande (máx. 5MB)");
+        }
+
+        // 2. Subir imagen a GitHub
+        const imagePath = `img/galeria/${filename}`;
+        await axios.put(
+            `https://api.github.com/repos/Moisescx/portfolio/contents/${imagePath}`,
+            {
+                message: `Subir imagen: ${title}`,
+                content: file,
+                branch: 'master'
+            },
+            {
+                headers: {
+                    'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            }
+        );
+
+        // 3. Actualizar data.json con la nueva imagen
+        await actualizarDataJson([{ src: imagePath, titulo: title }]);
+
         return {
-            statusCode: 401,
-            body: JSON.stringify({ error: "No autorizado" }),
+            statusCode: 200,
+            body: JSON.stringify({
+                success: true,
+                url: `https://raw.githubusercontent.com/Moisescx/portfolio/master/${imagePath}`
+            })
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({
+                error: error.message,
+                step: "subir-imagen",
+                stack: error.stack
+            })
         };
     }
-
-    const token = authHeader.split(" ")[1];
-    const [timestamp, password] = Buffer.from(token, 'base64').toString('utf8').split(":");
-
-    // Verifica que el token sea válido
-    const SERVER_PASSWORD = "supersecurepassword";
-    if (password !== SERVER_PASSWORD || Date.now() - parseInt(timestamp) > 3600000) { // 1 hora de validez
-        return {
-            statusCode: 401,
-            body: JSON.stringify({ error: "Token inválido o expirado" }),
-        };
-    }
-
-    // Procesar la subida de la imagen
-    const { file, filename, title } = JSON.parse(event.body || '{}');
-
-    if (!file || !filename || !title) {
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ error: "Datos inválidos" }),
-        };
-    }
-
-    // Aquí puedes guardar la imagen en un servicio como AWS S3, Cloudinary, etc.
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ message: "Imagen subida correctamente" }),
-    };
 };
