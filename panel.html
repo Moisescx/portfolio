@@ -91,6 +91,7 @@
         <!-- Aquí se cargarán las imágenes -->
     </div>
 
+
     <script>
         // Login
         async function login() {
@@ -209,13 +210,14 @@
                 const data = await response.json();
                 imagesContainer.innerHTML = "";
 
-                data.imagenes.forEach((imagen) => {
-                    const imageElement = document.createElement('div');
-                    imageElement.className = 'image-item';
-                    imageElement.innerHTML = `
-                        <img src="${imagen.src}" alt="${imagen.titulo}">
-                        <p>${imagen.titulo}</p>
-                    `;
+                data.imagenes.forEach((imagen, index) => {
+                const imageElement = document.createElement('div');
+                imageElement.className = 'image-item';
+                imageElement.innerHTML = `
+                    <img src="${imagen.src}" alt="${imagen.titulo}" style="max-width: 100px; max-height: 100px;">
+                    <p>${imagen.titulo}</p>
+                    <button onclick="eliminarImagen(${index})">Eliminar</button>
+                `;
                     imagesContainer.appendChild(imageElement);
                 });
             } catch (error) {
@@ -223,6 +225,39 @@
                 imagesContainer.innerHTML = "Error al cargar imágenes.";
             }
         }
+        // Función para eliminar una imagen
+    async function eliminarImagen(index) {
+        if (!confirm("¿Estás seguro de que deseas eliminar esta imagen?")) return;
+
+        try {
+            const response = await fetch('/.netlify/functions/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("authToken")}`,
+                },
+                body: JSON.stringify({ index }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Error al eliminar la imagen");
+            }
+
+            alert("Imagen eliminada correctamente");
+            cargarImagenes(); // Recargar la lista de imágenes
+        } catch (error) {
+            console.error("Error al eliminar imagen:", error);
+            alert(`Error: ${error.message}`);
+        }
+    }
+    // Cargar imágenes al cargar la página
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            cargarImagenes();
+        }
+    });
     </script>
 </body>
 
