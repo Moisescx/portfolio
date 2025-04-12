@@ -79,8 +79,8 @@ exports.handler = async (event, context) => {
     try {
         await actualizarDataJson([
             {
-                url: `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`,
-                title,
+                src: `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`,
+                titulo: title,
             },
         ]);
 
