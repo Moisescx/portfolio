@@ -62,7 +62,7 @@ exports.handler = async (event, context) => {
     const [timestamp, password] = Buffer.from(token, 'base64').toString('utf8').split(":");
 
     // Verifica que el token sea válido
-    const SERVER_PASSWORD = "supersecurepassword";
+    const SERVER_PASSWORD = "4&zW4~/~G}Kfpd05MtD8'rEIEnn_~{~}v";
     if (password !== SERVER_PASSWORD || Date.now() - parseInt(timestamp) > 3600000) { // 1 hora de validez
         return {
             statusCode: 401,
