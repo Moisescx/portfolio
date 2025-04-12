@@ -1,51 +1,48 @@
 const axios = require('axios');
 
 async function actualizarDataJson(imagenes) {
-  const dataJsonUrl = 'https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json';
-  const headers = {
-      'Authorization': `token ${process.env.GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json'
-  };
+    const dataJsonUrl = 'https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json';
+    const headers = {
+        'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+    };
 
-  let currentContent = { imagenes: [] }; // Estructura por defecto
-  let sha = null;
+    let currentContent = { imagenes: [] }; // Estructura por defecto
+    let sha = null;
 
-  try {
-      // Obtener el contenido actual de data.json
-      const { data: { content, sha: existingSha } } = await axios.get(dataJsonUrl, { headers });
-      const decodedContent = Buffer.from(content, 'base64').toString();
-      currentContent = JSON.parse(decodedContent) || currentContent; // Asegurar estructura válida
-      sha = existingSha;
-  } catch (error) {
-      if (error.response?.status === 404) {
-          // Si el archivo no existe, inicializar con estructura por defecto
-          console.warn("El archivo data.json no existe. Se creará uno nuevo.");
-      } else {
-          // Relanzar otros errores
-          throw error;
-      }
-  }
+    try {
+        // Obtener el contenido actual de data.json
+        const { data: { content, sha: existingSha } } = await axios.get(dataJsonUrl, { headers });
+        const decodedContent = Buffer.from(content, 'base64').toString();
+        currentContent = JSON.parse(decodedContent) || currentContent; // Asegurar estructura válida
+        sha = existingSha;
+    } catch (error) {
+        if (error.response?.status === 404) {
+            console.warn("El archivo data.json no existe. Se creará uno nuevo.");
+        } else {
+            throw error;
+        }
+    }
 
-  // Validar que currentContent.imagenes sea un array
-  if (!Array.isArray(currentContent.imagenes)) {
-      console.warn("El campo 'imagenes' no es un array. Se inicializará como un array vacío.");
-      currentContent.imagenes = [];
-  }
+    // Validar que currentContent.imagenes sea un array
+    if (!Array.isArray(currentContent.imagenes)) {
+        console.warn("El campo 'imagenes' no es un array. Se inicializará como un array vacío.");
+        currentContent.imagenes = [];
+    }
 
-  // Actualizar el contenido con las nuevas imágenes
-  currentContent.imagenes = [...currentContent.imagenes, ...imagenes];
+    // Actualizar el contenido con las nuevas imágenes
+    currentContent.imagenes = [...currentContent.imagenes, ...imagenes];
 
-  // Subir el nuevo contenido
-  await axios.put(
-      dataJsonUrl,
-      {
-          message: 'Actualizar galería',
-          content: Buffer.from(JSON.stringify(currentContent, null, 2)).toString('base64'),
-          sha: sha, // Si es null, GitHub creará el archivo
-          branch: 'master'
-      },
-      { headers }
-  );
+    // Subir el nuevo contenido
+    await axios.put(
+        dataJsonUrl,
+        {
+            message: 'Actualizar galería',
+            content: Buffer.from(JSON.stringify(currentContent, null, 2)).toString('base64'),
+            sha: sha, // Si es null, GitHub creará el archivo
+        },
+        { headers }
+    );
 }
 
 exports.handler = async (event, context) => {
@@ -78,21 +75,14 @@ exports.handler = async (event, context) => {
         };
     }
 
-    // Llamar a update-json.js para actualizar data.json
+    // Actualizar data.json con la nueva imagen
     try {
-        const response = await fetch('/.netlify/functions/update-json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authHeader}`,
+        await actualizarDataJson([
+            {
+                url: `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`,
+                title,
             },
-            body: JSON.stringify({
-                url: `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`            }),
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al actualizar data.json");
-        }
+        ]);
 
         return {
             statusCode: 200,
