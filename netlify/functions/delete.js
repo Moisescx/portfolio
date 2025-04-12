@@ -23,12 +23,10 @@ exports.handler = async (event) => {
     };
 
     try {
-        // Obtener el contenido actual de data.json
         const { data: { content, sha } } = await axios.get(dataJsonUrl, { headers });
         const decodedContent = Buffer.from(content, 'base64').toString();
         const currentContent = JSON.parse(decodedContent);
 
-        // Validar que el índice sea válido
         if (!Array.isArray(currentContent.imagenes) || index < 0 || index >= currentContent.imagenes.length) {
             return {
                 statusCode: 400,
@@ -36,10 +34,8 @@ exports.handler = async (event) => {
             };
         }
 
-        // Eliminar la imagen del array
         currentContent.imagenes.splice(index, 1);
 
-        // Actualizar data.json en GitHub
         const updatedContent = Buffer.from(JSON.stringify(currentContent, null, 2)).toString('base64');
         await axios.put(dataJsonUrl, {
             message: "Eliminar imagen",

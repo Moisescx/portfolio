@@ -4,7 +4,7 @@
 <head>
     <title>Panel Admin</title>
     <style>
-   * {
+        * {
             box-sizing: border-box;
         }
 
@@ -16,7 +16,8 @@
             color: #333;
         }
 
-        h2, h3 {
+        h2,
+        h3 {
             margin-top: 0;
         }
 
@@ -25,7 +26,8 @@
             margin: auto;
         }
 
-        #loginForm, #uploadForm {
+        #loginForm,
+        #uploadForm {
             background: #fff;
             border-radius: 10px;
             padding: 25px 30px;
@@ -33,7 +35,9 @@
             margin-bottom: 30px;
         }
 
-        input[type="password"], input[type="file"], input[type="text"] {
+        input[type="password"],
+        input[type="file"],
+        input[type="text"] {
             width: 100%;
             padding: 12px;
             margin-top: 10px;
@@ -59,7 +63,8 @@
             background: #45a049;
         }
 
-        #errorMsg, #uploadStatus {
+        #errorMsg,
+        #uploadStatus {
             margin-top: 15px;
             font-weight: bold;
             display: none;
@@ -83,7 +88,7 @@
             background: #f9f9f9;
             padding: 10px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
@@ -244,20 +249,25 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error("No se pudieron cargar las imágenes");
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Error al cargar las imágenes");
                 }
 
                 const data = await response.json();
                 imagesContainer.innerHTML = "";
 
+                if (!data.imagenes || !Array.isArray(data.imagenes)) {
+                    throw new Error("La estructura de data.json es inválida");
+                }
+
                 data.imagenes.forEach((imagen, index) => {
                     const imageElement = document.createElement('div');
                     imageElement.className = 'image-item';
                     imageElement.innerHTML = `
-                    <img src="${imagen.src}" alt="${imagen.titulo}" style="max-width: 100px; max-height: 100px;">
-                    <p>${imagen.titulo}</p>
-                    <button onclick="eliminarImagen(${index})">Eliminar</button>
-                `;
+                <img src="${imagen.src}" alt="${imagen.titulo}" style="max-width: 100px; max-height: 100px;">
+                <p>${imagen.titulo}</p>
+                <button onclick="eliminarImagen(${index})">Eliminar</button>
+            `;
                     imagesContainer.appendChild(imageElement);
                 });
             } catch (error) {
@@ -265,6 +275,8 @@
                 imagesContainer.innerHTML = "Error al cargar imágenes.";
             }
         }
+
+
         // Función para eliminar una imagen
         async function eliminarImagen(index) {
             if (!confirm("¿Estás seguro de que deseas eliminar esta imagen?")) return;
