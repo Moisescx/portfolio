@@ -8,7 +8,7 @@ exports.handler = async (event) => {
         };
     }
 
-    const { index } = JSON.parse(event.body || '{}'); // Índice de la imagen a eliminar
+    const { index } = JSON.parse(event.body || '{}');
     if (index === undefined) {
         return {
             statusCode: 400,

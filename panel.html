@@ -4,71 +4,112 @@
 <head>
     <title>Panel Admin</title>
     <style>
+   * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial;
-            background: #f5f5f5;
-            text-align: center;
-            padding: 50px;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 30px;
+            color: #333;
         }
 
-        #loginForm {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 400px;
-            margin: 0 auto;
+        h2, h3 {
+            margin-top: 0;
         }
 
-        #uploadForm {
-            display: none;
-            /* Oculto hasta login */
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 400px;
-            margin: 20px auto;
+        .panel-container {
+            max-width: 600px;
+            margin: auto;
         }
 
-        #uploadForm input,
-        #uploadForm button {
-            display: block;
+        #loginForm, #uploadForm {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        input[type="password"], input[type="file"], input[type="text"] {
             width: 100%;
-            margin: 10px 0;
-            padding: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
-        #errorMsg {
-            color: red;
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        #errorMsg, #uploadStatus {
+            margin-top: 15px;
+            font-weight: bold;
             display: none;
-        }
-
-        .loading {
-            opacity: 0.7;
-            cursor: wait;
         }
 
         #imagesContainer {
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 20px;
             margin-top: 20px;
         }
 
         .image-item {
-            display: inline-block;
-            margin: 10px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
         }
 
         .image-item img {
-            max-width: 100px;
-            max-height: 100px;
-            display: block;
-            margin: 0 auto;
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .image-item button {
+            margin-top: 10px;
+            padding: 6px 10px;
+            background: #e53935;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .image-item button:hover {
+            background: #c62828;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Formulario de Login -->
     <div id="loginForm">
         <h2>Acceso al Panel</h2>
         <input type="password" id="passwordInput" placeholder="Contraseña">
@@ -88,7 +129,6 @@
     <!-- Contenedor de imágenes -->
     <div id="imagesContainer">
         <h3>Imágenes existentes</h3>
-        <!-- Aquí se cargarán las imágenes -->
     </div>
 
 
@@ -125,7 +165,7 @@
             if (token) {
                 document.getElementById("loginForm").style.display = "none";
                 document.getElementById("uploadForm").style.display = "block";
-                cargarImagenes(); // Cargar imágenes al cargar la página
+                cargarImagenes();
             }
         });
 
@@ -211,9 +251,9 @@
                 imagesContainer.innerHTML = "";
 
                 data.imagenes.forEach((imagen, index) => {
-                const imageElement = document.createElement('div');
-                imageElement.className = 'image-item';
-                imageElement.innerHTML = `
+                    const imageElement = document.createElement('div');
+                    imageElement.className = 'image-item';
+                    imageElement.innerHTML = `
                     <img src="${imagen.src}" alt="${imagen.titulo}" style="max-width: 100px; max-height: 100px;">
                     <p>${imagen.titulo}</p>
                     <button onclick="eliminarImagen(${index})">Eliminar</button>
@@ -226,38 +266,38 @@
             }
         }
         // Función para eliminar una imagen
-    async function eliminarImagen(index) {
-        if (!confirm("¿Estás seguro de que deseas eliminar esta imagen?")) return;
+        async function eliminarImagen(index) {
+            if (!confirm("¿Estás seguro de que deseas eliminar esta imagen?")) return;
 
-        try {
-            const response = await fetch('/.netlify/functions/delete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("authToken")}`,
-                },
-                body: JSON.stringify({ index }),
-            });
+            try {
+                const response = await fetch('/.netlify/functions/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem("authToken")}`,
+                    },
+                    body: JSON.stringify({ index }),
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || "Error al eliminar la imagen");
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Error al eliminar la imagen");
+                }
+
+                alert("Imagen eliminada correctamente");
+                cargarImagenes(); // Recargar la lista de imágenes
+            } catch (error) {
+                console.error("Error al eliminar imagen:", error);
+                alert(`Error: ${error.message}`);
             }
-
-            alert("Imagen eliminada correctamente");
-            cargarImagenes(); // Recargar la lista de imágenes
-        } catch (error) {
-            console.error("Error al eliminar imagen:", error);
-            alert(`Error: ${error.message}`);
         }
-    }
-    // Cargar imágenes al cargar la página
-    document.addEventListener("DOMContentLoaded", () => {
-        const token = localStorage.getItem("authToken");
-        if (token) {
-            cargarImagenes();
-        }
-    });
+        // Cargar imágenes al cargar la página
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("authToken");
+            if (token) {
+                cargarImagenes();
+            }
+        });
     </script>
 </body>
 
