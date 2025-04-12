@@ -1,69 +1,72 @@
 const axios = require("axios");
 
 exports.handler = async (event) => {
-  if (!event.body) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: "El cuerpo de la solicitud está vacío." }),
-    };
-  }
-
-  let imagenes;
   try {
-    ({ imagenes } = JSON.parse(event.body));
-    if (!imagenes || !Array.isArray(imagenes)) {
-      throw new Error("El campo 'imagenes' debe ser un array.");
+    if (event.httpMethod !== "POST") {
+      return {
+        statusCode: 405,
+        body: JSON.stringify({ error: "Método no permitido. Usa POST." }),
+      };
     }
-  } catch (error) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        error: "Error al analizar el cuerpo de la solicitud.",
-        details: error.message,
-      }),
+
+    if (!event.body) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "El cuerpo de la solicitud está vacío." }),
+      };
+    }
+
+    const parsedBody = JSON.parse(event.body);
+
+    if (!parsedBody.imagenes || !Array.isArray(parsedBody.imagenes)) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: "El campo 'imagenes' debe ser un array válido.",
+        }),
+      };
+    }
+
+    const imagenesFormateadas = parsedBody.imagenes.map((imagen) => ({
+      src: imagen.url || imagen.src || "",
+      titulo: imagen.title || imagen.titulo || "",
+    }));
+
+    const dataJsonUrl =
+      "https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json";
+
+    const headers = {
+      Authorization: `token ${process.env.GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
     };
-  }
 
-  const dataJsonUrl =
-    "https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json";
-  const headers = {
-    Authorization: `token ${process.env.GITHUB_TOKEN}`,
-    Accept: "application/vnd.github.v3+json",
-  };
+    const { data: fileData } = await axios.get(dataJsonUrl, { headers });
+    const sha = fileData.sha;
 
-  try {
-    const {
-      data: { sha },
-    } = await axios.get(dataJsonUrl, { headers });
+    const nuevoContenido = Buffer.from(
+      JSON.stringify(imagenesFormateadas, null, 2)
+    ).toString("base64");
 
     await axios.put(
       dataJsonUrl,
       {
         message: "Actualizar galería",
-        content: Buffer.from(
-          JSON.stringify(
-            imagenes.map((imagen) => ({
-              src: imagen.url || imagen.src, // Asegúrate de usar "src"
-              titulo: imagen.title || imagen.titulo, // Asegúrate de usar "titulo"
-            })),
-            null,
-            2
-          )
-        ).toString("base64"),
+        content: nuevoContenido,
         sha: sha,
       },
       { headers }
     );
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ success: true }),
+      body: JSON.stringify({ success: true, mensaje: "Galería actualizada correctamente." }),
     };
   } catch (error) {
-    console.error("Error al actualizar JSON:", error.message);
+    console.error("Error al procesar la solicitud:", error.message);
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: "Error al actualizar JSON",
+        error: "Error interno al procesar la solicitud.",
         details: error.message,
       }),
     };
