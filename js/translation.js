@@ -11,7 +11,8 @@ const translations = {
       intro_titulo: "Intro",
       intro_texto: "¡Bienvenido a mi página! Soy [tu nombre] y este es mi espacio para compartir mi trabajo.",
       contactos: "Contactos",
-      derechos: "&copy; 2025 Doffito-K. Todos los derechos reservados."
+      derechos: "&copy; 2025 Doffito-K. Todos los derechos reservados.",
+      filtro: "Filtro"
     },
     en: {
       bienvenido: "W E L C O M E",
@@ -25,6 +26,7 @@ const translations = {
       intro_titulo: "Introduction",
       intro_texto: "Welcome to my page! I'm [your name] and this is my space to share my work.",
       contactos: "Contacts",
-      derechos: "&copy; 2025 YourName. All rights reserved."
+      derechos: "&copy; 2025 YourName. All rights reserved.",
+      filtro: "Filter"
     }
   };
