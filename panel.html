@@ -4,153 +4,163 @@
 <head>
     <title>Panel Admin</title>
     <style>
-       * {
-    box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f0f2f5;
-    margin: 0;
-    padding: 30px;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 30px;
+            color: #333;
+        }
 
-h2,
-h3 {
-    margin-top: 0;
-    text-align: center;
-}
+        h2,
+        h3 {
+            margin-top: 0;
+        }
 
-.panel-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
+        .panel-container {
+            max-width: 600px;
+            margin: auto;
+        }
 
-.card-form {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 350px;
-    transition: all 0.3s ease;
-}
+        #loginForm,
+        #uploadForm {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
 
-input[type="password"],
-input[type="file"],
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-}
+        input[type="password"],
+        input[type="file"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background: #9c4d98;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    margin-top: 15px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
 
-button:hover {
-    background: #5a2e67;
-}
+        button:hover {
+            background: #45a049;
+        }
 
-#errorMsg,
-#uploadStatus {
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 14px;
-}
+        #errorMsg,
+        #uploadStatus {
+            margin-top: 15px;
+            font-weight: bold;
+            display: none;
+        }
 
-#errorMsg.show,
-#uploadStatus.show {
-    display: block;
-}
+        #imagesContainer {
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
 
-.hidden {
-    display: none;
-}
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
 
-#imagesContainer {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    max-width: 600px;
-    margin: 40px auto 0 auto;
-}
+        .image-item {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
 
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
+        .image-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
 
-.image-item {
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
+        .image-item button {
+            margin-top: 10px;
+            padding: 6px 10px;
+            background: #e53935;
+            font-size: 14px;
+            border-radius: 4px;
+        }
 
-.image-item img {
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 4px;
-}
+        .image-item button:hover {
+            background: #c62828;
+        }
 
-.image-item button {
-    margin-top: 10px;
-    padding: 6px 10px;
-    background: #e53935;
-    font-size: 14px;
-    border-radius: 4px;
-    color: #fff;
-}
+        /* Estilo para los mensajes de estado */
+        .status-message {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            /* Ocultar por defecto */
+        }
 
-.image-item button:hover {
-    background: #c62828;
-}
+        /* Mensajes de éxito */
+        .status-message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Mensajes de error */
+        .status-message.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Mensajes de advertencia */
+        .status-message.warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+        }
     </style>
 </head>
 
 <body>
 
     <div id="loginForm">
-        <form id="loginForm" class="card-form">
-        <h2>Iniciar Sesion</h2>
+        <h2>Acceso al Panel</h2>
         <input type="password" id="passwordInput" placeholder="Contraseña">
         <button onclick="login()">Entrar</button>
-        <p id="errorMsg" class="hidden">Contraseña incorrecta</p>
-        </form>
+        <p id="errorMsg" class="status-message">Contraseña incorrecta</p>
     </div>
 
     <!-- Formulario de Subida -->
-    <form id="uploadForm" class="card-form hidden">
+    <form id="uploadForm">
         <h3>Subir nueva imagen</h3>
         <input type="file" id="imageInput" accept="image/jpeg, image/png, image/webp" required>
         <input type="text" id="imageTitle" placeholder="Título de la imagen" required>
         <button type="submit" id="submitBtn">Subir</button>
-        <p id="uploadStatus" class="hidden"></p>
+        <p id="uploadStatus" class="status-message"></p>
     </form>
 
     <!-- Contenedor de imágenes -->
@@ -179,7 +189,7 @@ button:hover {
                 localStorage.setItem("authToken", token); // Guarda el token en localStorage
                 document.getElementById("loginForm").style.display = "none";
                 document.getElementById("uploadForm").style.display = "block";
-                cargarImagenes(); // Cargar imágenes al iniciar sesión
+                cargarImagenes();
             } catch (error) {
                 document.getElementById("errorMsg").textContent = error.message;
                 document.getElementById("errorMsg").style.display = "block";
@@ -258,9 +268,10 @@ button:hover {
         });
 
         // Función para cargar imágenes existentes
+        // Función para cargar imágenes existentes
         async function cargarImagenes() {
             const imagesContainer = document.getElementById('imagesContainer');
-            imagesContainer.innerHTML = "Cargando imágenes...";
+            imagesContainer.innerHTML = "<div class='status-message'>Cargando imágenes...</div>";
 
             try {
                 const response = await fetch('/.netlify/functions/update-json', {
@@ -271,30 +282,39 @@ button:hover {
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Error al cargar las imágenes");
+                    throw new Error("Error al cargar las imágenes");
                 }
 
                 const data = await response.json();
-                imagesContainer.innerHTML = "";
 
                 if (!data.imagenes || !Array.isArray(data.imagenes)) {
                     throw new Error("La estructura de data.json es inválida");
                 }
 
+                if (data.imagenes.length === 0) {
+                    imagesContainer.innerHTML = "<div class='status-message warning'>No hay imágenes disponibles</div>";
+                    return;
+                }
+
+                // Crear contenedor de galería
+                const gallery = document.createElement('div');
+                gallery.className = 'gallery';
+                imagesContainer.innerHTML = '<h3>Imágenes existentes</h3>';
+                imagesContainer.appendChild(gallery);
+
                 data.imagenes.forEach((imagen, index) => {
                     const imageElement = document.createElement('div');
                     imageElement.className = 'image-item';
                     imageElement.innerHTML = `
-                <img src="${imagen.src}" alt="${imagen.titulo}" style="max-width: 100px; max-height: 100px;">
+                <img src="${imagen.src}" alt="${imagen.titulo}" onerror="this.src='https://via.placeholder.com/100?text=Imagen+no+disponible'">
                 <p>${imagen.titulo}</p>
                 <button onclick="eliminarImagen(${index})">Eliminar</button>
             `;
-                    imagesContainer.appendChild(imageElement);
+                    gallery.appendChild(imageElement);
                 });
             } catch (error) {
                 console.error("Error al cargar imágenes:", error);
-                imagesContainer.innerHTML = "Error al cargar imágenes.";
+                imagesContainer.innerHTML = `<div class="status-message error">Error al cargar imágenes: ${error.message}</div>`;
             }
         }
 
