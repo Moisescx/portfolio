@@ -7,6 +7,10 @@
     {
       "src": "img/galeria/imagen2.jpg",
       "titulo": "Texto"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/img-1744429481763-2bgskawmdix.jpg",
+      "titulo": "Imagen1456"
     }
   ]
 }
