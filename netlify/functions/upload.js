@@ -1,5 +1,6 @@
 const axios = require('axios');
 
+// Función para actualizar el archivo data.json en GitHub
 async function actualizarDataJson(imagenes) {
     const dataJsonUrl = 'https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json';
     const headers = {
@@ -20,7 +21,8 @@ async function actualizarDataJson(imagenes) {
         if (error.response?.status === 404) {
             console.warn("El archivo data.json no existe. Se creará uno nuevo.");
         } else {
-            throw error;
+            console.error("Error al obtener data.json:", error.message);
+            throw new Error("No se pudo obtener el archivo data.json.");
         }
     }
 
@@ -34,17 +36,44 @@ async function actualizarDataJson(imagenes) {
     currentContent.imagenes = [...currentContent.imagenes, ...imagenes];
 
     // Subir el nuevo contenido
-    await axios.put(
-        dataJsonUrl,
-        {
-            message: 'Actualizar galería',
-            content: Buffer.from(JSON.stringify(currentContent, null, 2)).toString('base64'),
-            sha: sha, // Si es null, GitHub creará el archivo
-        },
-        { headers }
-    );
+    try {
+        await axios.put(
+            dataJsonUrl,
+            {
+                message: 'Actualizar galería',
+                content: Buffer.from(JSON.stringify(currentContent, null, 2)).toString('base64'),
+                sha: sha, // Si es null, GitHub creará el archivo
+            },
+            { headers }
+        );
+    } catch (error) {
+        console.error("Error al actualizar data.json:", error.message);
+        throw new Error("No se pudo actualizar el archivo data.json.");
+    }
 }
 
+// Función para subir una imagen a GitHub
+async function subirImagenAGitHub(filename, fileContent) {
+    const imageUrl = `https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/${filename}`;
+    const headers = {
+        'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+    };
+
+    try {
+        await axios.put(imageUrl, {
+            message: `Subir imagen ${filename}`,
+            content: fileContent, // Archivo en base64
+        }, { headers });
+
+        return `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`;
+    } catch (error) {
+        console.error("Error al subir la imagen a GitHub:", error.message);
+        throw new Error("No se pudo subir la imagen a GitHub.");
+    }
+}
+
+// Función principal del handler
 exports.handler = async (event, context) => {
     const authHeader = event.headers.authorization;
 
@@ -75,11 +104,15 @@ exports.handler = async (event, context) => {
         };
     }
 
-    // Actualizar data.json con la nueva imagen
     try {
+        // Subir la imagen a GitHub
+        const base64File = file; // Archivo en base64 recibido del frontend
+        const imageUrl = await subirImagenAGitHub(filename, base64File);
+
+        // Actualizar data.json con la nueva imagen
         await actualizarDataJson([
             {
-                src: `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`,
+                src: imageUrl,
                 titulo: title,
             },
         ]);
@@ -89,10 +122,10 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ message: "Imagen subida correctamente" }),
         };
     } catch (error) {
-        console.error("Error al actualizar data.json:", error.message);
+        console.error("Error en el proceso de subida:", error.message);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: "Error al actualizar data.json" }),
+            body: JSON.stringify({ error: error.message }),
         };
     }
 };
