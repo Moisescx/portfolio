@@ -61,16 +61,14 @@ exports.handler = async (event, context) => {
     const token = authHeader.split(" ")[1];
     const [timestamp, password] = Buffer.from(token, 'base64').toString('utf8').split(":");
 
-    // Verifica que el token sea válido
     const SERVER_PASSWORD = "4&zW4~/~G}Kfpd05MtD8'rEIEnn_~{~}v";
-    if (password !== SERVER_PASSWORD || Date.now() - parseInt(timestamp) > 3600000) { // 1 hora de validez
+    if (password !== SERVER_PASSWORD || Date.now() - parseInt(timestamp) > 3600000) {
         return {
             statusCode: 401,
             body: JSON.stringify({ error: "Token inválido o expirado" }),
         };
     }
 
-    // Procesar la subida de la imagen
     const { file, filename, title } = JSON.parse(event.body || '{}');
 
     if (!file || !filename || !title) {
@@ -80,9 +78,31 @@ exports.handler = async (event, context) => {
         };
     }
 
-    // Aquí puedes guardar la imagen en un servicio como AWS S3, Cloudinary, etc.
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ message: "Imagen subida correctamente" }),
-    };
+    // Llamar a update-json.js para actualizar data.json
+    try {
+        const response = await fetch('/.netlify/functions/update-json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authHeader}`,
+            },
+            body: JSON.stringify({
+                url: `https://raw.githubusercontent.com/Moisescx/portfolio/master/img/galeria/${filename}`            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al actualizar data.json");
+        }
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ message: "Imagen subida correctamente" }),
+        };
+    } catch (error) {
+        console.error("Error al actualizar data.json:", error.message);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Error al actualizar data.json" }),
+        };
+    }
 };

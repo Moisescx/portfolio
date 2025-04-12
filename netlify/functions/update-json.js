@@ -28,28 +28,25 @@ exports.handler = async (event) => {
     };
 
     try {
-        // 1. Obtener el archivo actual (para el SHA)
         const { data: { sha } } = await axios.get(dataJsonUrl, { headers });
-
-        // 2. Subir el nuevo contenido
+    
         await axios.put(dataJsonUrl, {
             message: 'Actualizar galería',
             content: Buffer.from(JSON.stringify(imagenes, null, 2)).toString('base64'),
             sha: sha,
-            branch: 'master'
         }, { headers });
-
+    
         return {
             statusCode: 200,
-            body: JSON.stringify({ success: true })
+            body: JSON.stringify({ success: true }),
         };
     } catch (error) {
         return {
             statusCode: 500,
             body: JSON.stringify({ 
                 error: "Error al actualizar JSON",
-                details: error.message
-            })
+                details: error.message,
+            }),
         };
     }
-};
+}

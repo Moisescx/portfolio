@@ -116,9 +116,9 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     const statusMsg = document.getElementById('uploadStatus');
     const token = localStorage.getItem("authToken");
 
-    if (!token) {
-        statusMsg.textContent = "⚠️ No estás autenticado.";
-        statusMsg.style.color = "red";
+    if (!file || !title) {
+        statusMsg.textContent = "⚠️ Imagen y título son obligatorios.";
+        statusMsg.style.color = "orange";
         return;
     }
 
@@ -156,6 +156,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
 
         statusMsg.textContent = "✅ ¡Imagen subida correctamente!";
         statusMsg.style.color = "green";
+        cargarImagenes(); // Recargar la lista de imágenes
     } catch (error) {
         console.error("Error:", error);
         statusMsg.textContent = `❌ Error: ${error.message}`;
@@ -164,7 +165,8 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         submitBtn.disabled = false;
         submitBtn.textContent = "Subir";
     }
-});    </script>
+});    
+</script>
 </body>
 
 </html>
