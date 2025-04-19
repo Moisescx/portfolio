@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,11 @@
     <link rel="stylesheet" href="assets/css/styles_tienda.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=DotGothic16&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=DotGothic16&display=swap"
+        rel="stylesheet">
     <link rel="shortcut icon" href="img/iconos/imagen_base.ico" type="image/x-icon">
 </head>
+
 <body>
     <!-- Encabezado -->
     <header>
@@ -20,7 +23,7 @@
             <div class="language-switcher">
                 <button class="lang-btn active" data-lang="es">ES</button>
                 <button class="lang-btn" data-lang="en">EN</button>
-              </div>   
+            </div>
         </div>
     </header>
 
@@ -28,22 +31,22 @@
     <div id="container">
         <!-- Navegación -->
         <nav id="navigator">
-            <h2>Navegación</h2>
+            <h2 data-i18n="navegacion">Navegación</h2>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="about.html">Sobre Mi</a></li>
-                <li><a href="arte.html">Arte Samples</a></li>
+                <li><a href="index.html" data-i18n="inicio">Inicio</a></li>
+                <li><a href="about.html" data-i18n="sobre_mi">Sobre Mi</a></li>
+                <li><a href="arte.html" data-i18n="arte_samples">Arte Samples</a></li>
             </ul>
         </nav>
-    
+
         <!-- Contenido principal -->
         <main>
             <div id="productos">
-                    <div class="productos-grid" id="productos-container">
-                    </div>
+                <div class="productos-grid" id="productos-container">
                 </div>
+            </div>
         </main>
-    
+
         <!-- Barra lateral -->
         <aside id="sidebar">
             <h2 data-i18n="filtro">Filtro</h2>
@@ -55,9 +58,10 @@
             </div>
         </aside>
     </div>
-    
+
     <script src="js/vgen.js"></script>
     <script src="js/language.js"></script>
     <script src="js/translation.js"></script>
 </body>
+
 </html>
