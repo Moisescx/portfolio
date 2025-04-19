@@ -18,55 +18,7 @@ exports.handler = async (event) => {
 
       return {
         statusCode: 200,
-        body: JSON.stringify({ imagenes: parsedContent }),
-      };
-    }
-
-    if (event.httpMethod === "POST") {
-      // Manejar solicitudes POST para actualizar data.json
-      if (!event.body) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ error: "El cuerpo de la solicitud está vacío." }),
-        };
-      }
-
-      const parsedBody = JSON.parse(event.body);
-
-      if (!parsedBody.imagenes || !Array.isArray(parsedBody.imagenes)) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({
-            error: "El campo 'imagenes' debe ser un array válido.",
-          }),
-        };
-      }
-
-      const imagenesFormateadas = parsedBody.imagenes.map((imagen) => ({
-        src: imagen.url || imagen.src || "",
-        titulo: imagen.title || imagen.titulo || "",
-      }));
-
-      const { data: fileData } = await axios.get(dataJsonUrl, { headers });
-      const sha = fileData.sha;
-
-      const nuevoContenido = Buffer.from(
-        JSON.stringify(imagenesFormateadas, null, 2)
-      ).toString("base64");
-
-      await axios.put(
-        dataJsonUrl,
-        {
-          message: "Actualizar galería",
-          content: nuevoContenido,
-          sha: sha,
-        },
-        { headers }
-      );
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ success: true, mensaje: "Galería actualizada correctamente." }),
+        body: JSON.stringify(parsedContent), // Devuelve el contenido directamente
       };
     }
 

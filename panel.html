@@ -283,6 +283,7 @@
 
                 const data = await response.json();
 
+                // Verificar que el contenido tenga la estructura esperada
                 if (!data.imagenes || !Array.isArray(data.imagenes)) {
                     throw new Error("La estructura de data.json es inválida");
                 }
