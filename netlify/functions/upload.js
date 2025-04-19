@@ -1,6 +1,5 @@
 const axios = require('axios');
 
-// Función para actualizar el archivo data.json en GitHub
 async function actualizarDataJson(imagenes) {
     const dataJsonUrl = 'https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/data.json';
     const headers = {
@@ -47,7 +46,6 @@ async function actualizarDataJson(imagenes) {
     }
 }
 
-// Función para subir una imagen a GitHub
 async function subirImagenAGitHub(filename, fileContent) {
     const imageUrl = `https://api.github.com/repos/Moisescx/portfolio/contents/img/galeria/${filename}`;
     const headers = {
@@ -68,7 +66,6 @@ async function subirImagenAGitHub(filename, fileContent) {
     }
 }
 
-// Función principal del handler
 exports.handler = async (event, context) => {
     const authHeader = event.headers.authorization;
 

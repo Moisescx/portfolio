@@ -265,10 +265,9 @@
             }
         });
 
-        // Función para cargar imágenes existentes
         async function cargarImagenes() {
             const imagesContainer = document.getElementById('imagesContainer');
-            imagesContainer.innerHTML = "Cargando imágenes...";
+            imagesContainer.innerHTML = "<div class='status-message'>Cargando imágenes...</div>";
 
             try {
                 const response = await fetch('/.netlify/functions/update-json', {
@@ -279,30 +278,39 @@
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Error al cargar las imágenes");
+                    throw new Error("Error al cargar las imágenes");
                 }
 
                 const data = await response.json();
-                imagesContainer.innerHTML = "";
 
                 if (!data.imagenes || !Array.isArray(data.imagenes)) {
                     throw new Error("La estructura de data.json es inválida");
                 }
 
+                if (data.imagenes.length === 0) {
+                    imagesContainer.innerHTML = "<div class='status-message warning'>No hay imágenes disponibles</div>";
+                    return;
+                }
+
+                // Crear contenedor de galería
+                const gallery = document.createElement('div');
+                gallery.className = 'gallery';
+                imagesContainer.innerHTML = '<h3>Imágenes existentes</h3>';
+                imagesContainer.appendChild(gallery);
+
                 data.imagenes.forEach((imagen, index) => {
                     const imageElement = document.createElement('div');
                     imageElement.className = 'image-item';
                     imageElement.innerHTML = `
-                <img src="${imagen.src}" alt="${imagen.titulo}" style="max-width: 100px; max-height: 100px;">
+                <img src="${imagen.src}" alt="${imagen.titulo}" onerror="this.src='https://via.placeholder.com/100?text=Imagen+no+disponible'">
                 <p>${imagen.titulo}</p>
                 <button onclick="eliminarImagen(${index})">Eliminar</button>
             `;
-                    imagesContainer.appendChild(imageElement);
+                    gallery.appendChild(imageElement);
                 });
             } catch (error) {
                 console.error("Error al cargar imágenes:", error);
-                imagesContainer.innerHTML = "Error al cargar imágenes.";
+                imagesContainer.innerHTML = `<div class="status-message error">Error al cargar imágenes: ${error.message}</div>`;
             }
         }
 
@@ -332,15 +340,7 @@
                 console.error("Error al eliminar imagen:", error);
                 alert(`Error: ${error.message}`);
             }
-        }
-        // Cargar imágenes al cargar la página
-        document.addEventListener("DOMContentLoaded", () => {
-            const token = localStorage.getItem("authToken");
-            if (token) {
-                cargarImagenes();
-            }
-        });
-    </script>
+        }    </script>
 </body>
 
 </html>
