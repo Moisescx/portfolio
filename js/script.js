@@ -4,70 +4,78 @@ const imagenesPorDefecto = [
     { src: "img/galeria/fondo_aboutme.jpg", titulo: "Fondo About" }
   ];
   
-  // 2. Función para mostrar el carrusel
   function mostrarCarrusel(imagenes) {
     const galeria = document.getElementById("galeria");
     if (!galeria) return;
-  
+
     galeria.innerHTML = '';
-  
+
     const carruselContainer = document.createElement("div");
     carruselContainer.className = "carrusel-container";
-  
+
     const carrusel = document.createElement("div");
     carrusel.className = "carrusel";
-  
+
     imagenes.forEach(img => {
-      if (!img.src) return;
-  
-      const div = document.createElement("div");
-      div.className = "caja";
-      div.innerHTML = `
-        <div class="imagen-container">
-            <img src="${img.src}" alt="${img.titulo || 'Imagen'}">
-            ${img.titulo ? `<div class="titulo">${img.titulo}</div>` : ''}
-        </div>
-      `;
-      carrusel.appendChild(div);
+        if (!img.src) return;
+
+        const div = document.createElement("div");
+        div.className = "caja";
+        div.innerHTML = `
+            <div class="imagen-container">
+                <img src="${img.src}" alt="${img.titulo || 'Imagen'}">
+                ${img.titulo ? `<div class="titulo">${img.titulo}</div>` : ''}
+            </div>
+        `;
+        carrusel.appendChild(div);
     });
-  
+
     const prevButton = document.createElement("button");
     prevButton.className = "carrusel-btn prev";
     prevButton.innerHTML = "❮";
     prevButton.ariaLabel = "Imagen anterior";
-  
+
     const nextButton = document.createElement("button");
     nextButton.className = "carrusel-btn next";
     nextButton.innerHTML = "❯";
     nextButton.ariaLabel = "Imagen siguiente";
-  
+
     carruselContainer.append(prevButton, carrusel, nextButton);
     galeria.appendChild(carruselContainer);
-  
+
+    // Lógica para manejar el desplazamiento del carrusel
     function initCarousel() {
-      const scrollStep = document.querySelector(".caja")?.offsetWidth + 15 || 300;
-  
-      prevButton.onclick = () => carrusel.scrollBy({
-        left: -scrollStep,
-        behavior: "smooth"
-      });
-  
-      nextButton.onclick = () => carrusel.scrollBy({
-        left: scrollStep,
-        behavior: "smooth"
-      });
+        const cantidadVisible = 4; // Cantidad de imágenes visibles
+        const scrollStep = document.querySelector(".caja")?.offsetWidth + 15 || 300; // Ancho de cada imagen más el gap
+        const totalCajas = imagenes.length;
+        let posicionActual = 0;
+
+        prevButton.onclick = () => {
+            posicionActual -= cantidadVisible;
+            if (posicionActual < 0) {
+                posicionActual = 0; // No permitir desplazamiento más allá del inicio
+            }
+            carrusel.style.transform = `translateX(-${posicionActual * scrollStep}px)`;
+        };
+
+        nextButton.onclick = () => {
+            posicionActual += cantidadVisible;
+            if (posicionActual > totalCajas - cantidadVisible) {
+                posicionActual = totalCajas - cantidadVisible; // No permitir desplazamiento más allá del final
+            }
+            carrusel.style.transform = `translateX(-${posicionActual * scrollStep}px)`;
+        };
     }
-  
+
     const primeraImagen = carrusel.querySelector("img");
     if (primeraImagen?.complete) {
-      initCarousel();
+        initCarousel();
     } else if (primeraImagen) {
-      primeraImagen.onload = initCarousel;
+        primeraImagen.onload = initCarousel;
     } else {
-      initCarousel();
+        initCarousel();
     }
-  }
-  
+}  
   // 3. Función para subir imágenes
   async function subirImagen(file, title) {
     const nombreArchivo = `${Date.now()}-${file.name}`;

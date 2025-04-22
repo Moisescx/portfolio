@@ -422,7 +422,7 @@ main {
 .carrusel-container {
     position: relative;
     width: 100%;
-    max-width: 900px; /* Ajusta el ancho máximo del carrusel */
+    max-width: 1200px; /* Ajusta el ancho máximo del carrusel */
     margin: 0 auto;
     overflow: hidden; /* Ocultar contenido desbordado */
     padding: 20px 0;
@@ -494,8 +494,6 @@ main {
 }
 
 .carrusel .caja {
-    position: relative;
-    width: 100%;
     height: auto;
     overflow: hidden;
     border-radius: 10px; /* Bordes redondeados */
@@ -511,7 +509,7 @@ main {
 .carrusel .caja img {
     width: 100%;
     height: auto;
-    object-fit: cover; /* Ajustar la imagen al contenedor */
+    object-fit: contain; /* Asegura que los GIFs se muestren correctamente */
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
