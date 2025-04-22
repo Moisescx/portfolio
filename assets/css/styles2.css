@@ -354,6 +354,7 @@ main {
     position: relative;
     width: 100%; /* Ajustar al ancho del contenedor */
     height: 0;
+    max-width: 250px;
     overflow: hidden;
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
@@ -433,13 +434,10 @@ main {
 
 /* Carrusel */
 .carrusel {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
-    grid-template-rows: repeat(2, auto); /* 2 filas */
+    display: flex; /* Asegurar que las imágenes estén en una fila */
     gap: 15px; /* Espaciado entre las imágenes */
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
+    transition: transform 0.5s ease; /* Animación suave al desplazarse */
+    will-change: transform;
 }
 
 .carrusel img {
@@ -494,6 +492,8 @@ main {
 }
 
 .carrusel .caja {
+    flex: 0 0 calc(25% - 15px); /* Mostrar 4 imágenes (25% del ancho menos el gap) */
+    max-width: calc(25% - 15px); /* Asegurar que cada imagen ocupe 25% del carrusel */
     height: auto;
     overflow: hidden;
     border-radius: 10px; /* Bordes redondeados */
