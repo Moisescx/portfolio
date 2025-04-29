@@ -457,25 +457,19 @@ main {
 
 /* Estilo de los botones */
 .carrusel-btn {
-    width: 45px;
-    height: 45px;
     background-color: rgba(0, 0, 0, 0.5);
-    border: none;
-    border-radius: 50%;
     color: white;
-    font-size: 20px;
-    opacity: 0;
-    transition: all 0.4s ease;
-    z-index: 10;
     position: absolute;
-    top: 50%;
+    top: 88%;
     transform: translateY(-50%);
+    z-index: 10;
+    border: none;
+    padding: 1px 19px;       /* alto y ancho */
+    border-radius: 20px;     /* bordes redondeados para estilo moderno */
+    font-size: 12px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    margin-top: 84px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* Botón izquierdo */
@@ -497,7 +491,7 @@ main {
 .carrusel-btn:hover {
     background-color: rgba(255, 255, 255, 0.85);
     color: #000;
-    transform: translateY(-50%) scale(1.15);
+    transform: translateY(-2px) scale(1.05);
 }
 
 /* Agregar una transición de sombra */
@@ -527,8 +521,6 @@ main {
     object-fit: contain; /* Asegura que los GIFs se muestren correctamente */
     transition: transform 0.3s ease, filter 0.3s ease;
 }
-
-
 
 /* Footer (si lo necesitas) */
 footer {
