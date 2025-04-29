@@ -457,38 +457,53 @@ main {
 
 /* Estilo de los botones */
 .carrusel-btn {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 10;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border: none;
-    font-size: 1.8rem;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
     cursor: pointer;
-    z-index: 10;
-    transition: background 0.3s ease, transform 0.3s ease;
     display: flex;
-    justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    margin-top: 84px;
 }
 
-.carrusel-btn:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #000;
-    transform: scale(1.1); /* Aumentar ligeramente el tamaño */
-}
-
-/* Posicionamiento de botones */
+/* Botón izquierdo */
 .prev {
-    left: 10px;
+    left: 15px;
 }
 
+/* Botón derecho */
 .next {
-    right: 10px;
+    right: 15px;
+}
+
+/* Mostrar botones al hacer hover sobre el carrusel */
+.carrusel-container:hover .carrusel-btn {
+    opacity: 1;
+}
+
+/* Hover animado para los botones */
+.carrusel-btn:hover {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #000;
+    transform: translateY(-50%) scale(1.15);
+}
+
+/* Agregar una transición de sombra */
+.carrusel-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
 }
 
 .carrusel .caja {
