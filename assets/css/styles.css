@@ -6,13 +6,13 @@
 }
 
 .language-switcher {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     z-index: 100;
-  }
-  
-  .lang-btn {
+}
+
+.lang-btn {
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
@@ -21,47 +21,67 @@
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s;
-  }
-  
-  .lang-btn.active {
+}
+
+.lang-btn.active {
     background: #7737e5;
     font-weight: bold;
-  }
+}
 
 /*Animaciones*/
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
 }
 
-@keyframes typing {
+/*@keyframes typing {
     from {
         width: 0;
     }
+
     to {
-        width: 458px; /* Asegúrate de que coincida con el ancho del texto */
+        width: 458px;
     }
 }
+*/
 
-@keyframes cursor {
+/*@keyframes cursor {
     30% {
         border-color: transparent;
     }
 }
+*/
 
 @keyframes brillo {
     0% {
         filter: brightness(1);
     }
+
     50% {
         filter: brightness(1.5);
     }
+
     100% {
         filter: brightness(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }
 
@@ -80,7 +100,8 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Overlay oscuro */
+    background: rgba(0, 0, 0, 0.5);
+    /* Overlay oscuro */
     z-index: -1;
 }
 
@@ -99,50 +120,55 @@ body {
     z-index: 1;
     font-display: swap;
     position: relative;
-    padding-bottom: 50px; /* Espaciado al final de la página */
+    padding-bottom: 50px;
+    /* Espaciado al final de la página */
 }
 
-
-/* Estilo para el encabezado */
-.header_text {
-    font-family: "DotGothic16", sans-serif;
-    font-weight: 400;
-    font-size: 3rem; /* En lugar de 50px */
-    text-align: center;
-    font-style: normal;
-}
-
-.typing {
+/*.typing {
     width: 458px;
     overflow: hidden;
     white-space: nowrap;
     border-right: 2px solid #cbcecf;
     animation: typing 4s steps(12, end), cursor .4s steps(12, end) infinite;
-}
-
-
-header img {
-    max-width: 300px;
-    height: auto;
-    display: block;
-    margin: auto;
-}
+}*/
 
 .header-container {
     display: flex;
-    align-items: center;
-    justify-content: space-between; /* Espacio entre los elementos */
-    max-width: 1200px;
+    position: relative;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    /* Espacio entre los elementos */
+    max-width: 1100px;
+    padding-top: 20px;
     margin: auto;
 }
 
-.header-left,
-.header-right {
-    width: 100%;
+.welcome-center{
+    max-width: 400px;
+    z-index: 1;
+    margin: 0 20px;   
+    filter: drop-shadow(0 0 10px #c77dff)
+    drop-shadow(0 0 30px #9b5de5);}
+
+.left-lantern,
+.right-lantern {
+    width: 300px;
     height: auto;
+    z-index: 2;
+    top: 0;
+    position : absolute;
 }
 
-.header-right, .header-left {
+.right-lantern{
+    right: 0;
+}
+.left-lantern{
+    left: 0;
+}
+
+.right-lantern,
+.left-lantern{
     animation: brillo 2s infinite alternate ease-in-out;
 }
 
@@ -159,15 +185,16 @@ h2 {
 p {
     color: var(--color-secundario);
     font-size: 1em;
-    
+
 }
+
 .button-53 {
     background-color: #7348b0;
     border: 0 solid #E5E7EB;
     box-sizing: border-box;
     color: #ffffff;
     display: flex;
-    font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1rem;
     font-weight: 700;
     justify-content: center;
@@ -185,13 +212,14 @@ p {
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-  }
-  
-  .button-53:focus {
+    animation: pulse 3s infinite ease-in-out;
+}
+
+.button-53:focus {
     outline: var(--borde);
-  }
-  
-  .button-53:after {
+}
+
+.button-53:after {
     content: '';
     position: absolute;
     border: 1px solid #000000;
@@ -199,17 +227,23 @@ p {
     left: 4px;
     width: calc(100% - 1px);
     height: calc(100% - 1px);
-  }
-  
-  .button-53:hover:after {
+}
+
+.button-53:hover {
+    filter: brightness(1.2);
+    transform: rotate(0deg) scale(1.03);
+}
+
+.button-53:hover:after {
     bottom: 2px;
     left: 2px;
-  }
-  
+}
+
 
 /* Estilo de la navegación */
 #navigator {
-    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
+    background: var(--fondo-transparente);
+    /* Fondo oscuro con opacidad */
     padding: 15px;
     border-radius: 12px;
     margin-bottom: 20px;
@@ -217,7 +251,8 @@ p {
     min-height: 200px;
     display: flex;
     overflow: hidden;
-    flex-direction: column;  /* Ajustar el ancho del menú */
+    flex-direction: column;
+    /* Ajustar el ancho del menú */
     max-width: 200px;
     overflow-y: auto;
     outline: var(--borde)
@@ -239,7 +274,8 @@ p {
 
 #navigator a {
     text-decoration: none;
-    text-decoration: underline; /* Subrayado por defecto */
+    text-decoration: underline;
+    /* Subrayado por defecto */
     color: var(--color-secundario);
     font-weight: bold;
     font-size: 1rem;
@@ -253,30 +289,52 @@ p {
     padding: 5px 10px;
 }
 
+#navigator a:focus {
+    outline: 2px solid #fff;
+    background-color: #45335b;
+}
+
 /* Estilos para el contenedor principal */
 #container {
     width: 100%;
-    max-width: 900px; /* Más ancho en pantallas grandes */
-    min-width: 10%; /* Se ajusta en móviles */
-    margin: 20px auto; /* Centrar */
-    min-height: calc(100vh - 150px); /* Altura mínima para que el contenido ocupe casi toda la pantalla */
+    max-width: 900px;
+    /* Más ancho en pantallas grandes */
+    min-width: 10%;
+    /* Se ajusta en móviles */
+    margin: 20px auto;
+    /* Centrar */
+    min-height: calc(100vh - 150px);
+    /* Altura mínima para que el contenido ocupe casi toda la pantalla */
     display: flex;
     margin-bottom: 50px;
-    flex-wrap: wrap; /* Permite mejor adaptación */
+    flex-wrap: wrap;
+    /* Permite mejor adaptación */
     justify-content: space-between;
     align-items: flex-start;
-    gap: clamp(5px, 2vw, 20px); /* Espaciado dinámico */
+    gap: clamp(5px, 2vw, 20px);
+    /* Espaciado dinámico */
+}
+
+#container>* {
+    flex: 1 1 calc(33% - 15px);
+    /* Asegura que los elementos ocupen 1/3 del ancho, con un espaciado de 15px */
+    box-sizing: border-box;
 }
 
 /* Contenido principal */
 main {
-    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
+    background: var(--fondo-transparente);
+    /* Fondo oscuro con opacidad */
     border-radius: 12px;
-    box-shadow: var(--sombra); /* Sombra para resaltar */
-    flex: 2; /* Permite que el main tenga más espacio que la sidebar */
-    padding: clamp(10px, 1vw, 25px); /* Ajuste dinámico */
+    box-shadow: var(--sombra);
+    /* Sombra para resaltar */
+    flex: 2;
+    /* Permite que el main tenga más espacio que la sidebar */
+    padding: clamp(10px, 1vw, 25px);
+    /* Ajuste dinámico */
     color: var(--color-primario);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Mejora la legibilidad */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    /* Mejora la legibilidad */
     outline: var(--borde);
 }
 
@@ -288,23 +346,32 @@ main {
 
 /* Estilo para los posts */
 #posts-image {
-    width: 100px; /* Ancho fijo */
-    max-width: 100%; /* Evita que la imagen sobresalga */
-    height: auto; /* Mantiene la relación original */
-    object-fit: cover; /* Recorta la imagen para ajustarla bien sin distorsión */
-    border-radius: 5px;  
-    display: block; /* Para asegurar centrado */
-    margin: 15px auto; /* Centra la imagen */
-    box-shadow: var(--sombra); /* Pequeña sombra para resaltar */
+    width: 100px;
+    /* Ancho fijo */
+    max-width: 100%;
+    /* Evita que la imagen sobresalga */
+    height: auto;
+    /* Mantiene la relación original */
+    object-fit: cover;
+    /* Recorta la imagen para ajustarla bien sin distorsión */
+    border-radius: 5px;
+    display: block;
+    /* Para asegurar centrado */
+    margin: 15px auto;
+    /* Centra la imagen */
+    box-shadow: var(--sombra);
+    /* Pequeña sombra para resaltar */
 }
 
 /* Barra lateral */
 #sidebar {
-    background: var(--fondo-transparente); /* Fondo oscuro con opacidad */
+    background: var(--fondo-transparente);
+    /* Fondo oscuro con opacidad */
     border-radius: 12px;
     box-shadow: var(--sombra);
     overflow: hidden;
-    flex: 1; /* Hace que la sidebar sea más pequeña */
+    flex: 1;
+    /* Hace que la sidebar sea más pequeña */
     width: 100%;
     max-width: 250px;
     min-width: 200px;
@@ -316,9 +383,12 @@ main {
 /* Estilos para el contacto */
 
 .contact-list {
-    display: grid; /* Usa CSS Grid para organizar en columnas */
-    grid-template-columns: repeat(2, 1fr); /* Dos columnas del mismo tamaño */
-    gap: 20px; /* Espaciado entre elementos */
+    display: grid;
+    /* Usa CSS Grid para organizar en columnas */
+    grid-template-columns: repeat(2, 1fr);
+    /* Dos columnas del mismo tamaño */
+    gap: 20px;
+    /* Espaciado entre elementos */
 }
 
 .contact {
@@ -326,15 +396,19 @@ main {
     border-radius: 6px;
     display: flex;
     align-items: center;
-    gap: 8px; /* Espaciado entre icono y texto */
-    white-space: nowrap; /* Evita que el texto se corte en dos líneas */ 
+    gap: 8px;
+    /* Espaciado entre icono y texto */
+    white-space: nowrap;
+    /* Evita que el texto se corte en dos líneas */
 }
 
 .boton {
     display: flex;
-    margin-bottom: 10px; /* Separa los botones 10px en la parte inferior */
+    margin-bottom: 10px;
+    /* Separa los botones 10px en la parte inferior */
     align-items: center;
-    width: 100%; /* Permite que se ajuste dentro de la grid */
+    width: 100%;
+    /* Permite que se ajuste dentro de la grid */
     padding: 10px 15px;
     background-color: aliceblue;
     border-radius: 50px;
@@ -365,36 +439,115 @@ footer {
     padding: 20px;
     font-size: 0.9rem;
     color: #666;
-  }
-  
-  footer a {
+}
+
+footer a {
     color: #ff6b6b;
     text-decoration: none;
-  }
-  
-  .dev-credit {
+}
+
+.dev-credit {
     display: block;
     margin-top: 5px;
     font-size: 0.8rem;
-  }
+}
 
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 600px) {
+    .header_text {
+        font-size: 2rem;
+    }
 
-  @media (max-width: 667px) {
+    .header-right {
+        display: none;
+    }
+
+    .header-container {
+        flex-direction: column;
+        /* Cambiar a columna en pantallas pequeñas */
+        align-items: center;
+        /* Centrar los elementos */
+    }
+
+    .button-53 {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #navigator {
+        max-width: 100%;
+        /* Ancho completo en móviles */
+        padding: 10px;
+        /* Espaciado reducido */
+        margin-bottom: 10px;
+        /* Espacio entre el menú y el contenido */
+    }
+
+    #navigator.active {
+        display: block;
+    }
+
+    .menu-toggle {
+        display: block;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    #container {
+        flex-direction: column;
+        /* Cambiar la disposición de los elementos */
+        align-items: center;
+        /* Centrar los elementos */
+    }
+
+    #sidebar {
+        max-width: 100%;
+        /* Hacer que la barra lateral ocupe el 100% */
+        min-width: 100%;
+        /* Eliminar el ancho mínimo */
+    }
+
+    #posts-image {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    footer {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Pantallas medianas (tablets) */
+@media (max-width: 768px) {
+    .header_text {
+        font-size: 2.5rem;
+    }
+
+    .button-53 {
+        font-size: 1rem;
+    }
+
+    #navigator {
+        max-width: 250px;
+        /* Ancho más pequeño para tabletas */
+    }
+
     #container {
         flex-direction: column;
     }
-    #navigator, #sidebar {
+
+    #container>* {
+        flex: 1 1 100%;
+        /* En pantallas pequeñas, los elementos ocupan el 100% */
+    }
+
+    #sidebar {
         max-width: 100%;
-        margin-bottom: 20px;
+        padding: 15px;
     }
-    .header-container {
-        text-align: start;
-        background-repeat: space;
-    }
-    .header_text {
-        font-size: 2rem; /* Cambiado de 30px a 2rem */
-    }
-    .contact-list {
-        grid-template-columns: 1fr; /* Solo una columna en pantallas pequeñas */
-    }
-  }
+}
